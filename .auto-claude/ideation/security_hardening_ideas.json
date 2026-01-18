@@ -1,0 +1,115 @@
+{
+  "security_hardening": [
+    {
+      "id": "sec-001",
+      "type": "security_hardening",
+      "title": "Implement secrets management strategy with environment-based configuration",
+      "description": "Establish a secure secrets management approach before development begins to prevent hardcoded credentials and ensure proper separation of secrets across environments (dev, staging, production).",
+      "rationale": "Secrets management is a foundational security practice. Starting with proper patterns prevents credential leakage, accidental commits of sensitive data, and enables secure credential rotation. According to OWASP A07:2021, broken authentication often stems from poor credential handling.",
+      "category": "secrets_management",
+      "severity": "critical",
+      "affectedFiles": [],
+      "vulnerability": "N/A - Proactive Security Measure",
+      "currentRisk": "Without a secrets management strategy, developers may commit credentials to version control, hardcode API keys, or use the same secrets across environments, increasing risk of data breaches.",
+      "remediation": "1) Create .env.example templates with placeholder values (no real secrets) 2) Add .env files to .gitignore 3) Implement environment variable validation at application startup 4) Use a secrets manager for production (Azure Key Vault, AWS Secrets Manager, or HashiCorp Vault) 5) Document required environment variables and their formats 6) Implement secret rotation strategy",
+      "references": [
+        "https://owasp.org/www-project-cheat-sheets/cheatsheets/Secrets_Management_Cheat_Sheet.html",
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "compliance": ["SOC2", "PCI-DSS", "GDPR"],
+      "proactive": true
+    },
+    {
+      "id": "sec-002",
+      "type": "security_hardening",
+      "title": "Set up dependency vulnerability scanning and supply chain security",
+      "description": "Configure automated dependency scanning tools (npm audit, Snyk, Dependabot, or similar) to detect and alert on known vulnerabilities in third-party packages before they enter production.",
+      "rationale": "OWASP A06:2021 identifies vulnerable and outdated components as a top security risk. With modern applications relying heavily on dependencies, a single compromised package can lead to supply chain attacks. Recent incidents like the event-stream and ua-parser-js packages demonstrate the impact.",
+      "category": "dependencies",
+      "severity": "high",
+      "affectedFiles": [],
+      "vulnerability": "CWE-1104: Use of Unmaintained Third Party Components",
+      "currentRisk": "Without dependency scanning, vulnerable packages with known CVEs may be introduced, potentially allowing attackers to exploit known vulnerabilities in the application's dependencies.",
+      "remediation": "1) Configure automated security auditing in package.json (npm audit, yarn audit) 2) Enable GitHub Dependabot or GitLab Dependency Scanning 3) Set up Snyk or similar tool for continuous monitoring 4) Implement policy for dependency updates (patch versions within 7 days, minor versions within 30 days) 5) Require lockfiles (package-lock.json, yarn.lock) in version control 6) Add pre-commit hooks to block commits with high-severity vulnerabilities 7) Document vetting process for new dependencies",
+      "references": [
+        "https://owasp.org/www-project-top-ten/2021/A06_2021-Vulnerable_and_Outdated_Components",
+        "https://cwe.mitre.org/data/definitions/1104.html",
+        "https://npmjs.com/advisories"
+      ],
+      "compliance": ["SOC2", "PCI-DSS", "ISO-27001"],
+      "proactive": true
+    },
+    {
+      "id": "sec-003",
+      "type": "security_hardening",
+      "title": "Implement security headers and CSP framework from day one",
+      "description": "Configure a security middleware layer that enforces HTTP security headers (Content-Security-Policy, X-Frame-Options, HSTS, etc.) and establishes a strict Content Security Policy to prevent XSS and clickjacking attacks.",
+      "rationale": "Security headers provide defense-in-depth protection against common web vulnerabilities. Implementing them early prevents XSS (OWASP A03:2021), clickjacking, and other client-side attacks. CSP is particularly effective at neutralizing XSS payloads even if input validation fails.",
+      "category": "configuration",
+      "severity": "high",
+      "affectedFiles": [],
+      "vulnerability": "CWE-693: Protection Mechanism Failure",
+      "currentRisk": "Without security headers, the application is vulnerable to cross-site scripting, clickjacking, MIME-sniffing attacks, and man-in-the-middle attacks on insecure connections.",
+      "remediation": "Configure these headers: 1) Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-...'; object-src 'none'; base-uri 'self' 2) X-Frame-Options: DENY or SAMEORIGIN 3) X-Content-Type-Options: nosniff 4) Strict-Transport-Security: max-age=31536000; includeSubDomains 5) X-XSS-Protection: 1; mode=block 6) Referrer-Policy: strict-origin-when-cross-origin 7) Permissions-Policy: geolocation=(), microphone=(), camera=(). Use helmet.js (Node) or django-securityheaders (Python) for automated configuration.",
+      "references": [
+        "https://owasp.org/www-project-secure-headers/",
+        "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+        "https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Strict_Transport_Security_Cheat_Sheet.html"
+      ],
+      "compliance": ["SOC2", "PCI-DSS"],
+      "proactive": true
+    },
+    {
+      "id": "sec-004",
+      "type": "security_hardening",
+      "title": "Establish input validation and output encoding framework",
+      "description": "Create a standardized approach for input validation (allowlist-based) and output encoding (context-aware) to prevent injection attacks. Implement validation schemas for all user inputs and establish sanitization patterns for different output contexts (HTML, JavaScript, CSS, URL).",
+      "rationale": "Injection attacks remain the #1 web application vulnerability (OWASP A03:2021). A systematic approach to input validation and output encoding is the most effective defense against SQL injection, XSS, command injection, and LDAP injection. Allowlist validation is more secure than blocklist filtering.",
+      "category": "input_validation",
+      "severity": "critical",
+      "affectedFiles": [],
+      "vulnerability": "CWE-20: Improper Input Validation",
+      "currentRisk": "Without structured input validation and output encoding, the application will be vulnerable to injection attacks that can lead to data breaches, authentication bypass, and complete system compromise.",
+      "remediation": "1) Implement validation library (Joi/Yup for JS, Pydantic for Python, Cerber for Go) 2) Use allowlist validation (define what IS allowed, reject everything else) 3) Validate on type, length, range, format, and business rules 4) Use parameterized queries for database access (prepared statements) 5) Apply context-aware output encoding (HTML entities for HTML context, encodeURIComponent for JS context) 6) Sanitize markdown/HTML content with DOMPurify or bleach 7) Implement API request validation middleware 8) Reject (don't sanitize) invalid inputs with clear error messages",
+      "references": [
+        "https://owasp.org/www-project-top-ten/2021/A03_2021-Injection",
+        "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+        "https://cwe.mitre.org/data/definitions/20.html"
+      ],
+      "compliance": ["SOC2", "PCI-DSS", "HIPAA"],
+      "proactive": true
+    },
+    {
+      "id": "sec-005",
+      "type": "security_hardening",
+      "title": "Implement authentication and session management security foundation",
+      "description": "Design secure authentication flows with proper session management, password hashing, multi-factor authentication support, and secure token handling to prevent authentication bypass and session hijacking.",
+      "rationale": "Broken authentication is a critical vulnerability (OWASP A07:2021) that can lead to account takeover and privilege escalation. Proper session management and secure credential handling are essential for protecting user accounts. Session hijacking and password theft are common attack vectors.",
+      "category": "authentication",
+      "severity": "critical",
+      "affectedFiles": [],
+      "vulnerability": "CWE-287: Improper Authentication",
+      "currentRisk": "Without secure authentication foundations, attackers can brute-force passwords, hijack sessions, bypass authentication, and access user accounts through credential stuffing or session fixation attacks.",
+      "remediation": "1) Use bcrypt, scrypt, or Argon2 for password hashing (never MD5/SHA1) 2) Implement rate limiting on authentication endpoints (5-10 requests per minute) 3) Use secure, HttpOnly, SameSite cookies for session tokens 4) Set session expiration to 15-30 minutes of inactivity 5) Implement session regeneration after login 6) Support MFA via TOTP or WebAuthn 7) Use JWT with RS256 asymmetric signing or secure session IDs 8) Implement secure password reset flows with time-limited tokens 9) Log and alert on failed authentication attempts 10) Use OAuth 2.0 / OpenID Connect for third-party authentication",
+      "references": [
+        "https://owasp.org/www-project-top-ten/2021/A07_2021-Identification_and_Authentication_Failures",
+        "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+        "https://cwe.mitre.org/data/definitions/287.html"
+      ],
+      "compliance": ["SOC2", "PCI-DSS", "GDPR", "HIPAA"],
+      "proactive": true
+    }
+  ],
+  "metadata": {
+    "dependenciesScanned": 0,
+    "knownVulnerabilities": 0,
+    "filesAnalyzed": 0,
+    "criticalIssues": 0,
+    "highIssues": 0,
+    "projectStatus": "new_project_no_code",
+    "analysisType": "proactive_security_foundation",
+    "generatedAt": "2026-01-17T21:25:00Z"
+  }
+}

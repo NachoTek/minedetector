@@ -1,0 +1,55 @@
+{
+  "task_description": "Build a Minesweeper clone that matches the original Windows Minesweeper game feature set exactly.",
+  "scoped_services": ["minesweeper"],
+  "files_to_modify": [],
+  "files_to_create": [
+    "src/__init__.py",
+    "src/models/cell.py",
+    "src/models/game_state.py",
+    "src/models/__init__.py",
+    "src/game/board.py",
+    "src/game/mine_placement.py",
+    "src/game/adjacent_counter.py",
+    "src/game/flood_fill.py",
+    "src/game/chording.py",
+    "src/game/__init__.py",
+    "src/ui/main_window.py",
+    "src/ui/game_grid.py",
+    "src/ui/timer.py",
+    "src/ui/mine_counter.py",
+    "src/ui/__init__.py",
+    "main.py",
+    "requirements.txt",
+    "README.md",
+    "tests/__init__.py",
+    "tests/test_cell.py",
+    "tests/test_adjacent_counter.py",
+    "tests/test_flood_fill.py",
+    "tests/test_first_click.py",
+    "tests/test_chording.py",
+    "tests/test_win_loss.py"
+  ],
+  "files_to_reference": [],
+  "patterns": {
+    "cell_model": "Cell class with mine, revealed, flagged, adjacent_mines properties",
+    "game_state": "Enum with PLAYING, WON, LOST states",
+    "board_structure": "2D array (list of lists) of Cell objects with (row, col) coordinates",
+    "difficulty_config": "Dictionary with rows, cols, mines for Beginner/Intermediate/Expert",
+    "flood_fill": "Stack-based iteration to avoid recursion on large boards",
+    "first_click_safety": "Generate mines AFTER first click to ensure safety",
+    "chording": "When flags_placed === cell_number, reveal all unflagged neighbors",
+    "win_condition": "All non-mine cells revealed: revealed_count == (rows * cols) - mine_count"
+  },
+  "existing_implementations": {
+    "description": "Greenfield project - no existing code",
+    "relevant_files": []
+  },
+  "tech_decisions": {
+    "language": "Python",
+    "gui_framework": "Tkinter (built-in, authentic Windows look)",
+    "testing_framework": "pytest",
+    "project_structure": "src/models, src/game, src/ui, tests"
+  },
+  "created_at": "2026-01-18T02:34:43.619313Z",
+  "updated_at": "2026-01-18T02:50:00.000Z"
+}

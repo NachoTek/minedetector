@@ -1,0 +1,25 @@
+{
+  "project_root": "C:\\Projects\\minedetector",
+  "project_type": "single",
+  "services": {
+    "minesweeper": {
+      "path": ".",
+      "tech_stack": ["python", "tkinter"],
+      "port": null,
+      "dev_command": "python main.py",
+      "test_command": "pytest tests/",
+      "description": "Standalone desktop Minesweeper game"
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": null,
+    "external_services": []
+  },
+  "conventions": {
+    "linter": "pylint",
+    "formatter": "black",
+    "testing": "pytest",
+    "documentation": "docstrings"
+  }
+}

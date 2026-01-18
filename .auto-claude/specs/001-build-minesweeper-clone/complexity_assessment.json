@@ -1,0 +1,72 @@
+{
+  "complexity": "complex",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "Greenfield desktop application requiring complete build-out from game logic to UI. While Minesweeper is well-understood, the project demands language/framework selection, full feature set research, and implementation of multiple interconnected components (game state, UI, timer, scoring, mine placement algorithm). This goes beyond a simple feature addition and warrants full workflow with research and self-critique phases.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 12,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "Standalone desktop game. Estimated files: main entry point, game logic module, UI components (grid, timer, counter, menus), mine placement algorithm, flood fill reveal, win/lose detection, high score handling, configuration, tests, documentation."
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": ["TBD - GUI framework based on language choice"],
+      "research_needed": true,
+      "notes": "No external APIs, but requires research to document Windows Minesweeper's complete feature set (difficulty levels, question mark flags, first-click protection, custom grid sizes, etc.) and appropriate GUI framework selection."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": false,
+      "notes": "Standalone desktop application with in-memory game state. No server infrastructure, databases, or containers required. Configuration limited to game settings (difficulty, grid size)."
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["TBD - depends on language selection"],
+      "notes": "Greenfield project with no existing patterns. Requires research into: (1) Complete Windows Minesweeper feature specification, (2) Appropriate language/GUI framework choice, (3) Minesweeper algorithms (mine placement, flood fill, first-click safety)."
+    },
+    "risk": {
+      "level": "low",
+      "concerns": [
+        "Achieving exact feature parity with Windows Minesweeper may require careful attention to detail",
+        "Mine placement algorithm must guarantee solvability while maintaining randomness",
+        "Flood fill algorithm for revealing cells must be efficient",
+        "Language/framework choice could impact maintainability and cross-platform compatibility"
+      ],
+      "notes": "Low risk: well-defined problem domain, no security concerns, no external dependencies, standalone application prevents cascade failures. Main risk is incomplete feature research leading to missing functionality."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "self_critique",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": true,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Desktop game application requires unit tests for game logic algorithms (mine placement, flood fill, win detection) and integration tests for UI interactions. No security concerns (no auth, payments, or data handling). No staging deployment needed for standalone desktop app."
+  },
+
+  "created_at": "2025-01-17T00:00:00.000Z"
+}

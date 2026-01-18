@@ -1,0 +1,157 @@
+{
+  "code_quality": [
+    {
+      "id": "cq-001",
+      "type": "code_quality",
+      "title": "Establish project foundation with proper tooling configuration",
+      "description": "The minedetector project is currently empty with no source code, package manifests, or tooling configuration. Before development begins, establish proper code quality tooling to prevent technical debt.",
+      "rationale": "Setting up linting, formatting, type checking, and testing frameworks from day one prevents accumulated code quality issues. It's much harder to retrofit these tools onto an existing codebase.",
+      "category": "linting",
+      "severity": "critical",
+      "affectedFiles": [
+        "package.json (to be created)",
+        "eslint.config.js/.eslintrc (to be created)",
+        "prettier.config.js/.prettierrc (to be created)",
+        "tsconfig.json (if TypeScript)",
+        ".gitignore"
+      ],
+      "currentState": "Empty project with no configuration files or tooling setup",
+      "proposedChange": "Initialize project with comprehensive tooling:\n1. Choose tech stack (Node.js/TypeScript recommended for detector apps)\n2. Configure ESLint with strict rules\n3. Add Prettier for consistent formatting\n4. Set up Husky pre-commit hooks\n5. Configure TypeScript with strict mode if applicable\n6. Add Jest or Vitest for testing\n7. Configure commitlint for conventional commits",
+      "codeExample": "// package.json scripts:\n{\n  \"scripts\": {\n    \"lint\": \"eslint . --ext .ts,.tsx\",\n    \"format\": \"prettier --write \\\"**/*.{ts,tsx,json,md}\\\"\",\n    \"type-check\": \"tsc --noEmit\",\n    \"test\": \"vitest\",\n    \"prepare\": \"husky install\"\n  }\n}\n\n// .eslintrc.js (strict configuration):\nmodule.exports = {\n  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],\n  rules: {\n    '@typescript-eslint/no-unused-vars': 'error',\n    '@typescript-eslint/explicit-function-return-type': 'warn',\n    'no-console': 'warn'\n  }\n};",
+      "bestPractice": "Fail fast - catch code quality issues at commit time, not in production",
+      "metrics": {
+        "lineCount": 0,
+        "complexity": null,
+        "duplicateLines": null,
+        "testCoverage": null
+      },
+      "estimatedEffort": "medium",
+      "breakingChange": false,
+      "prerequisites": [
+        "Decide on tech stack and runtime environment",
+        "Determine if this is a web app, desktop app, CLI tool, or library"
+      ]
+    },
+    {
+      "id": "cq-002",
+      "type": "code_quality",
+      "title": "Design modular architecture from the start",
+      "description": "Without existing code, we have an opportunity to design a clean, modular architecture that avoids common pitfalls like monolithic files, circular dependencies, and unclear module boundaries.",
+      "rationale": "Most code quality issues stem from poor architectural decisions early in development. Planning the folder structure and module boundaries upfront prevents massive refactoring later.",
+      "category": "structure",
+      "severity": "major",
+      "affectedFiles": [
+        "src/ (to be created with proper structure)"
+      ],
+      "currentState": "No source code or directory structure exists",
+      "proposedChange": "Establish a clear, modular architecture before writing code:\n\nFor a detector application (assuming Minecraft mining detector):\nsrc/\n├── core/           # Core detection logic\n│   ├── detector.ts\n│   └── analyzer.ts\n├── config/         # Configuration management\n│   └── settings.ts\n├── ui/             # User interface components\n│   └── components/\n├── utils/          # Shared utilities\n│   ├── logger.ts\n│   └── helpers.ts\n├── types/          # TypeScript type definitions\n│   └── index.ts\n└── tests/          # Test files co-located or separate",
+      "codeExample": "// Good: Clear module boundaries\n// src/core/detector.ts\nexport class MineDetector {\n  constructor(private config: DetectorConfig) {}\n  detect(data: ScanData): DetectionResult { ... }\n}\n\n// src/utils/logger.ts\nexport class Logger {\n  info(message: string) { ... }\n}\n\n// Avoid: God objects that do everything\n// Bad example to avoid:\nexport class App {\n  detect() { ... }\n  render() { ... }\n  log() { ... }\n  save() { ... }\n  load() { ... }\n}",
+      "bestPractice": "Architectural modularity - each module has a single, well-defined responsibility",
+      "metrics": {
+        "lineCount": 0,
+        "complexity": null,
+        "duplicateLines": null,
+        "testCoverage": null
+      },
+      "estimatedEffort": "small",
+      "breakingChange": false,
+      "prerequisites": [
+        "Define the core functionality of minedetector",
+        "Identify main components and their responsibilities"
+      ]
+    },
+    {
+      "id": "cq-003",
+      "type": "code_quality",
+      "title": "Implement test-driven development (TDD) workflow",
+      "description": "Set up testing infrastructure and establish TDD practices before writing application code to ensure high test coverage from the start.",
+      "rationale": "Retroactively adding tests is difficult and rarely achieves good coverage. Writing tests first ensures better code design, acts as documentation, and prevents regression bugs.",
+      "category": "testing",
+      "severity": "major",
+      "affectedFiles": [
+        "tests/ (to be created)",
+        "vitest.config.ts or jest.config.js (to be created)"
+      ],
+      "currentState": "No test infrastructure or test files exist",
+      "proposedChange": "1. Choose testing framework (Vitest recommended for modern TypeScript)\n2. Configure test runner with coverage reporting (c8 or istanbul)\n3. Set up test utilities and fixtures\n4. Establish TDD workflow: write failing test, make it pass, refactor\n5. Configure CI to run tests on every commit\n6. Aim for 80%+ coverage threshold",
+      "codeExample": "// vitest.config.ts\nimport { defineConfig } from 'vitest/config';\n\nexport default defineConfig({\n  test: {\n    coverage: {\n      provider: 'v8',\n      reporter: ['text', 'json', 'html'],\n      lines: 80,\n      functions: 80,\n      branches: 80,\n      statements: 80\n    }\n  }\n});\n\n// Example TDD workflow:\n// 1. Write failing test first\nimport { describe, it, expect } from 'vitest';\nimport { MineDetector } from '../detector';\n\ndescribe('MineDetector', () => {\n  it('should detect ore patterns', () => {\n    const detector = new MineDetector();\n    const result = detector.detect([{x: 0, y: 10, z: 0}]);\n    expect(result.found).toBe(true);\n  });\n});\n\n// 2. Implement minimal code to pass\n// 3. Refactor while keeping tests green",
+      "bestPractice": "Test-Driven Development - write tests before implementation",
+      "metrics": {
+        "lineCount": 0,
+        "complexity": null,
+        "duplicateLines": null,
+        "testCoverage": 0
+      },
+      "estimatedEffort": "medium",
+      "breakingChange": false,
+      "prerequisites": [
+        "Set up build tooling (Vite, Webpack, or ts-node)",
+        "Configure testing framework"
+      ]
+    },
+    {
+      "id": "cq-004",
+      "type": "code_quality",
+      "title": "Configure strict TypeScript and type safety",
+      "description": "If using TypeScript (strongly recommended), enable the strictest compiler options to catch type errors at compile time rather than runtime.",
+      "rationale": "TypeScript's strict mode catches entire classes of bugs before code even runs. Starting with strict mode prevents accumulating technical debt from loosely-typed code that would need refactoring later.",
+      "category": "types",
+      "severity": "major",
+      "affectedFiles": [
+        "tsconfig.json (to be created)"
+      ],
+      "currentState": "No TypeScript configuration exists",
+      "proposedChange": "Create tsconfig.json with strict settings:\n{\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"module\": \"NodeNext\",\n    \"lib\": [\"ES2022\"],\n    \"strict\": true,\n    \"noUncheckedIndexedAccess\": true,\n    \"noImplicitOverride\": true,\n    \"noUnusedLocals\": true,\n    \"noUnusedParameters\": true,\n    \"noFallthroughCasesInSwitch\": true,\n    \"noImplicitReturns\": true,\n    \"esModuleInterop\": true,\n    \"skipLibCheck\": true,\n    \"forceConsistentCasingInFileNames\": true\n  },\n  \"include\": [\"src/**/*\"],\n  \"exclude\": [\"node_modules\", \"dist\"]\n}\n\nAdditionally, configure ESLint to ban `any` type usage:",
+      "codeExample": "// .eslintrc.js - ban 'any' type\nmodule.exports = {\n  rules: {\n    '@typescript-eslint/no-explicit-any': 'error',\n    '@typescript-eslint/no-unsafe-assignment': 'error',\n    '@typescript-eslint/no-unsafe-member-access': 'error',\n    '@typescript-eslint/no-unsafe-call': 'error',\n    '@typescript-eslint/no-unsafe-return': 'error'\n  }\n};\n\n// Good: Explicit types\ninterface DetectionResult {\n  found: boolean;\n  confidence: number;\n  location?: { x: number; y: number; z: number };\n}\n\nfunction detect(data: ScanData[]): DetectionResult {\n  // Implementation\n  return { found: true, confidence: 0.95 };\n}\n\n// Bad: Using 'any' (will be caught by linter)\nfunction process(data: any): any {\n  return data.result;\n}",
+      "bestPractice": "Type safety at compile time - catch errors before runtime",
+      "metrics": {
+        "lineCount": 0,
+        "complexity": null,
+        "duplicateLines": null,
+        "testCoverage": null
+      },
+      "estimatedEffort": "small",
+      "breakingChange": false,
+      "prerequisites": [
+        "Decide to use TypeScript (highly recommended over plain JavaScript)"
+      ]
+    },
+    {
+      "id": "cq-005",
+      "type": "code_quality",
+      "title": "Establish documentation and code comment standards",
+      "description": "Set up documentation standards and tools before development begins to ensure code is self-documenting and has appropriate API documentation.",
+      "rationale": "Documentation is often an afterthought, leading to undocumented codebases that are difficult to onboard to. Establishing documentation standards from the start ensures consistent, useful documentation throughout the project lifecycle.",
+      "category": "code_smells",
+      "severity": "minor",
+      "affectedFiles": [
+        "README.md (to be created)",
+        "docs/ (to be created)",
+        "All future source files"
+      ],
+      "currentState": "No documentation or README exists",
+      "proposedChange": "1. Create comprehensive README.md with:\n   - Project description and purpose\n   - Installation/setup instructions\n   - Usage examples\n   - Development workflow\n   - Contributing guidelines\n\n2. Set up API documentation tool (TypeDoc for TypeScript)\n3. Establish code comment standards:\n   - JSDoc comments for all public APIs\n   - Inline comments only for complex logic\n   - Self-documenting variable/function names\n4. Add CONTRIBUTING.md with coding standards\n5. Use meaningful commit messages (conventional commits)",
+      "codeExample": "// Good: Self-documenting code with JSDoc\n/**\n * Scans a chunk for ore deposits using pattern matching\n * @param chunk - The chunk data to scan\n * @param options - Detection options including sensitivity threshold\n * @returns Detection results with confidence score and locations\n * @throws {InvalidChunkError} When chunk data is malformed\n */\nexport function scanChunk(\n  chunk: ChunkData,\n  options: DetectionOptions\n): DetectionResult {\n  const patterns = loadOrePatterns();\n  const matches = findMatches(chunk, patterns);\n  \n  return {\n    found: matches.length > 0,\n    confidence: calculateConfidence(matches),\n    locations: matches.map(m => m.location)\n  };\n}\n\n// Bad: Cryptic names and no documentation\nfunction proc(d: any, o?: any) {\n  const p = get();\n  const m = chk(d, p);\n  return { f: m.length > 0, c: calc(m) };\n}\n\n// README.md structure:\n# MineDetector\n\n## Overview\nDetects mining patterns and ore locations in Minecraft worlds.\n\n## Installation\n`npm install minedetector`\n\n## Usage\n```typescript\nimport { MineDetector } from 'minedetector';\n```\n\n## Development\n- Run tests: `npm test`\n- Build: `npm run build`\n- Lint: `npm run lint`\n\n## Contributing\nSee [CONTRIBUTING.md](CONTRIBUTING.md)",
+      "bestPractice": "Code is read more than it's written - prioritize readability and documentation",
+      "metrics": {
+        "lineCount": 0,
+        "complexity": null,
+        "duplicateLines": null,
+        "testCoverage": null
+      },
+      "estimatedEffort": "small",
+      "breakingChange": false,
+      "prerequisites": null
+    }
+  ],
+  "metadata": {
+    "filesAnalyzed": 0,
+    "largeFilesFound": 0,
+    "duplicateBlocksFound": 0,
+    "lintingConfigured": false,
+    "testsPresent": false,
+    "projectStatus": "new_project_no_code",
+    "recommendation": "This is a new project with no source code. Focus on establishing code quality foundations before development begins to prevent technical debt.",
+    "generatedAt": "2026-01-17T21:18:35.000Z"
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Pygame",
+      "type": "library",
+      "verified_package": {
+        "name": "pygame",
+        "install_command": "pip install pygame",
+        "version": "2.6.1 (latest stable as of Sep 2024)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import pygame",
+          "import pygame.locals",
+          "from pygame.locals import *"
+        ],
+        "initialization": "pygame.init()\nscreen = pygame.display.set_mode((width, height))\npygame.display.set_caption('Minesweeper')",
+        "key_functions": [
+          "pygame.event.get() - Handle input events",
+          "pygame.mouse.get_pos() - Get mouse position",
+          "pygame.mouse.get_pressed() - Get mouse button states",
+          "pygame.display.flip() - Update display",
+          "pygame.draw.rect() - Draw rectangles for cells",
+          "pygame.font.SysFont() - Render text for numbers"
+        ],
+        "verified_against": "https://www.pygame.org/wiki/GettingStarted, https://pypi.org/project/pygame/"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "Python 3.8+ (3.6+ minimum, Python 2 support dropped)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_python": true,
+        "platforms": ["Windows", "macOS", "Linux"]
+      },
+      "gotchas": [
+        "Must call pygame.init() before using any pygame functions",
+        "Event loop must run continuously to keep window responsive",
+        "Coordinate system: (0,0) is top-left corner",
+        "Colors specified as RGB tuples (0-255 each)",
+        "Text rendering requires font initialization each time"
+      ],
+      "research_sources": [
+        "https://www.pygame.org/wiki/GettingStarted",
+        "https://pypi.org/project/pygame/",
+        "https://www.youtube.com/watch?v=n0jZRlhLtt0"
+      ],
+      "pros": [
+        "Cross-platform compatibility",
+        "Full control over rendering and input",
+        "Common choice for 2D games in Python",
+        "Good performance for grid-based games",
+        "Easy to handle mouse events (left/right click)"
+      ],
+      "cons": [
+        "External dependency (not in standard library)",
+        "Requires installation via pip",
+        "More boilerplate than Tkinter for simple GUIs"
+      ]
+    },
+    {
+      "name": "Tkinter",
+      "type": "library",
+      "verified_package": {
+        "name": "tkinter",
+        "install_command": "No installation needed - included in Python standard library",
+        "version": "Built into Python 3.x",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import tkinter as tk",
+          "from tkinter import messagebox",
+          "from tkinter import Button, Frame, Label"
+        ],
+        "initialization": "root = tk.Tk()\nroot.title('Minesweeper')\nroot.geometry('400x400')",
+        "key_functions": [
+          "Button() - Create clickable cells",
+          "Frame() - Organize UI layout",
+          "bind('<Button-1>', handler) - Left click handler",
+          "bind('<Button-3>', handler) - Right click handler",
+          "grid() or pack() - Layout management",
+          "config() - Update widget properties"
+        ],
+        "verified_against": "https://docs.python.org/3/library/tkinter.html"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "Python 3.x (Tcl/Tk bundled with Python)"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_python": true,
+        "platforms": ["Windows", "macOS", "Linux"]
+      },
+      "gotchas": [
+        "Main loop must be started with root.mainloop()",
+        "Layout management: grid() vs pack() vs place() - grid() best for Minesweeper",
+        "Default styling looks dated (but can be customized)",
+        "Right-click may need special handling on macOS",
+        "Event handlers receive event object with position info"
+      ],
+      "research_sources": [
+        "https://docs.python.org/3/library/tkinter.html",
+        "https://codereview.stackexchange.com/questions/279598/tkinter-minesweeper-clone-v2",
+        "https://www.youtube.com/watch?v=v9ueCmRABZY"
+      ],
+      "pros": [
+        "No external dependencies - built into Python",
+        "Native look and feel on each platform",
+        "Button widgets handle clicks automatically",
+        "Simple for grid-based layouts",
+        "Ideal for Minesweeper's grid of clickable cells"
+      ],
+      "cons": [
+        "Less control over custom rendering",
+        "Default appearance looks like classic Windows 95 (could be pro or con)",
+        "Less suitable for complex animations or effects"
+      ]
+    }
+  ],
+  "game_features_researched": {
+    "original_windows_minesweeper_features": {
+      "gameplay": [
+        "Grid of clickable cells with hidden mines",
+        "Left-click to reveal a cell",
+        "Right-click to place/remove flag",
+        "Numbers indicate adjacent mine count (1-8)",
+        "Blank cells (0) auto-reveal adjacent cells (flood fill)",
+        "Chording: When number of flags equals cell number, clicking reveals all adjacent non-flagged cells",
+        "Game over if mine is clicked",
+        "Win when all non-mine cells are revealed"
+      ],
+      "ui_elements": [
+        "Mine counter (total mines - flags placed)",
+        "Timer (counts up from first click)",
+        "Reset button (face icon that reacts to game state)",
+        "Menu bar with Game, Help options",
+        "Difficulty selection: Beginner, Intermediate, Expert, Custom"
+      ],
+      "difficulty_levels": {
+        "beginner": "8x8 or 9x9 grid with 10 mines",
+        "intermediate": "16x16 grid with 40 mines",
+        "expert": "30x16 grid with 99 mines",
+        "custom": "User-defined width, height, mine count"
+      },
+      "advanced_features": [
+        "First click guaranteed safe (Windows Vista+)",
+        "Question marks (optional feature - could flag with ? to mark uncertain)",
+        "High score tracking (fastest times per difficulty)",
+        "Keyboard shortcuts: F2 for new game"
+      ]
+    },
+    "research_sources": [
+      "https://en.wikipedia.org/wiki/Minesweeper_(video_game)",
+      "https://minesweepergame.com/strategy/how-to-play-minesweeper.php"
+    ]
+  },
+  "unverified_claims": [],
+  "recommendations": [
+    "**For closest Windows Minesweeper replica**: Use Tkinter - its native button widgets provide classic Minesweeper look and feel with minimal code.",
+    "**For modernized/cross-platform polish**: Use Pygame - allows custom rendering, smoother animations, and consistent appearance across platforms.",
+    "**Tkinter advantages for this project**: Built into Python (no setup), perfect for grid-based games, handles left/right-click natively, matches original Minesweeper's UI paradigm.",
+    "**Pygame advantages**: More flexibility for custom graphics, better performance if adding visual effects, more modern game development patterns.",
+    "**Critical features to implement**: (1) Flood-fill algorithm for blank cells, (2) Right-click flagging, (3) Mine counter and timer, (4) Chording mechanic, (5) All three standard difficulty levels."
+  ],
+  "implementation_considerations": {
+    "algorithm_requirements": [
+      "Flood fill (DFS or BFS) for revealing blank cells and adjacent non-mine cells",
+      "Random mine placement with first-click safety guarantee",
+      "Adjacent mine counting (check all 8 neighbors)",
+      "Chording: reveal neighbors when flags === cell number"
+    ],
+    "data_structure": [
+      "2D array or list of lists for the board",
+      "Each cell needs: mine status (bool), revealed status (bool), flagged status (bool), adjacent_mine_count (int 0-8)"
+    ],
+    "state_management": [
+      "Game state: playing, won, lost",
+      "Timer: start on first click, stop on game end",
+      "Mine counter: total_mines - flags_placed"
+    ]
+  },
+  "created_at": "2025-01-17T10:00:00Z"
+}
