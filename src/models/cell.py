@@ -1,7 +1,7 @@
 """
 Cell Data Model
 
-Represents a single cell in the Minesweeper game board.
+Represents a single cell in the Minedetector game board.
 Each cell tracks its mine status, revealed state, flag state, and adjacent mine count.
 """
 
@@ -11,7 +11,7 @@ from dataclasses import dataclass
 @dataclass
 class Cell:
     """
-    Represents a single cell on the Minesweeper game board.
+    Represents a single cell on the Minedetector game board.
 
     Attributes:
         mine: Boolean indicating whether this cell contains a mine. Defaults to False.
