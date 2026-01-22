@@ -266,10 +266,12 @@ class MainWindow:
         if self.game_grid:
             self.game_grid.update_all_cells()
 
-        # Explicitly update the clicked cell to ensure proper visual state
-        # This ensures the clicked tile's "sunken" relief is properly applied
+        # Explicitly update the clicked cell with a DEFERRED update to ensure proper visual state
+        # The deferred update schedules the visual refresh AFTER Tkinter's button release
+        # event processing completes, preventing the button from being reset to "raised"
+        # after we set it to "sunken" for revealed cells.
         if self.game_grid:
-            self.game_grid.update_cell(row, col)
+            self.game_grid.update_cell_deferred(row, col)
 
         # Check game state and update UI
         self._check_game_state()
