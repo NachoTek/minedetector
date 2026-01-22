@@ -62,8 +62,8 @@ Since the production executable (`dist/minedetector.exe`) cannot be created in t
 ### Expected Results
 
 #### What You SHOULD See (✅ PASS):
-- One window: The Minesweeper game window
-- Window title: "Minesweeper"
+- One window: The Mine Detector game window
+- Window title: "Mine Detector"
 - Game board with grid, menu bar, mine counter, timer
 - No black console/command prompt window
 - Clean GUI-only application
@@ -203,7 +203,7 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"} | Select-Object Proce
 ```
 ProcessName    MainWindowTitle
 -----------    ---------------
-Minesweeper    Minesweeper
+Mine Detector    Mine Detector
 ```
 
 If `MainWindowTitle` is empty or you see multiple processes, the console may be present.

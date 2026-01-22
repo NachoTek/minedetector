@@ -215,6 +215,12 @@ These files are present and correctly configured:
 
 ### Completed Subtasks
 
+#### Subtask 5-1: README.md Replacement ✓
+- [x] Replaced all 19 instances of 'Minesweeper' with 'Minedetector' in README.md
+- [x] Updated title, description, code blocks, build commands, file paths, and all references
+- [x] Verification: `grep -ic 'minesweeper' README.md` returns 0
+- [x] Committed: auto-claude: subtask-5-1 - Replace 'minesweeper' in README.md
+
 #### Subtask 4-2: Unix Build Scripts Replacement ✓
 - [x] Replaced all instances of 'Minesweeper' with 'Minedetector' in Unix build scripts
 - [x] build-dev.sh: 7 replacements (comments, echo statements, PyInstaller --name parameter, file paths)
@@ -223,7 +229,7 @@ These files are present and correctly configured:
 - [x] Committed: auto-claude: subtask-4-2 - Replace 'minesweeper' in Unix build scripts (*.sh)
 
 ### Remaining Work
-- [ ] Subtask 4-3: Replace 'minesweeper' in main.spec PyInstaller configuration
-- [ ] Phase 5: Documentation replacement (README.md, verification guides, etc.)
+- [ ] Subtask 5-2: Replace 'minesweeper' in verification and testing documentation
+- [ ] Subtask 5-3: Replace 'minesweeper' in subtask summary and session documentation
 - [ ] Phase 6: Configuration files replacement (.auto-claude-status)
 - [ ] Phase 7: Final verification
