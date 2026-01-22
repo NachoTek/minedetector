@@ -1,14 +1,14 @@
-# Minesweeper
+# Minedetector
 
-A classic Minesweeper game built with Python and Tkinter. This desktop application recreates the timeless puzzle game with all the familiar features you know and love.
+A classic Minedetector game built with Python and Tkinter. This desktop application recreates the timeless puzzle game with all the familiar features you know and love.
 
-![Minesweeper](https://img.shields.io/badge/version-1.0.0-blue)
+![Minedetector](https://img.shields.io/badge/version-1.0.0-blue)
 ![Python](https://img.shields.io/badge/python-3.8+-green)
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
 ## Features
 
-- **Classic Gameplay**: All the traditional Minesweeper mechanics
+- **Classic Gameplay**: All the traditional Minedetector mechanics
   - Left-click to reveal cells
   - Right-click to place flags
   - Chording: Click a revealed number with the correct flag count to reveal surrounding cells
@@ -41,7 +41,7 @@ A classic Minesweeper game built with Python and Tkinter. This desktop applicati
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd Minesweeper
+   cd Minedetector
    ```
 
 2. No additional dependencies are required! The game uses only Python's standard library.
@@ -89,7 +89,7 @@ These scripts will:
 - Clean any previous build artifacts
 - Create a single-file executable with `--onefile` mode
 - Hide the console window (GUI-only mode)
-- Output the executable to `dist/Minesweeper.exe`
+- Output the executable to `dist/Minedetector.exe`
 
 #### Option 2: Manual Build
 
@@ -97,17 +97,17 @@ If you prefer to build manually or customize the build process:
 
 **Production Build (Single Portable Executable)**:
 ```bash
-python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --windowed --name=Minedetector --clean main.py
 ```
 
 **Development Build (Faster, Easier to Debug)**:
 ```bash
-python -m PyInstaller --onedir --windowed --name=Minesweeper --clean main.py
+python -m PyInstaller --onedir --windowed --name=Minedetector --clean main.py
 ```
 
 **Debug Build (Shows Console for Error Messages)**:
 ```bash
-python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --console --name=Minedetector --clean main.py
 ```
 
 **Note**: Using `python -m PyInstaller` instead of `pyinstaller` directly ensures the command works regardless of your system PATH configuration.
@@ -119,20 +119,20 @@ python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
 - `--windowed` or `--noconsole`: Hides the console window (required for GUI applications)
 - `--console`: Shows the console window (useful for debugging)
 - `--clean`: Cleans the build cache before building (ensures fresh output)
-- `--name=Minesweeper`: Sets the output executable name
+- `--name=Minedetector`: Sets the output executable name
 
 ### Output Location
 
 After building, you'll find the executable here:
-- **Single-file build**: `dist/Minesweeper.exe`
-- **Directory build**: `dist/Minesweeper/Minesweeper.exe`
+- **Single-file build**: `dist/Minedetector.exe`
+- **Directory build**: `dist/Minedetector/Minedetector.exe`
 
 The single-file executable is typically 5-15 MB in size, as it bundles the entire Python runtime and Tkinter library.
 
 ### Testing the Executable
 
 1. Navigate to the `dist` folder
-2. Double-click `Minesweeper.exe`
+2. Double-click `Minedetector.exe`
 3. Verify the game launches without a console window
 4. Test all game features to ensure everything works correctly
 
@@ -159,10 +159,10 @@ Some antivirus software may flag PyInstaller-generated executables as suspicious
 - The executable is not signed with a digital certificate
 - New or unrecognized executables are often treated with caution
 
-**The executable is safe** - it's simply the Minesweeper game with no malicious behavior. If your antivirus blocks it:
+**The executable is safe** - it's simply the Minedetector game with no malicious behavior. If your antivirus blocks it:
 
 1. Check your antivirus quarantine/exclusions settings
-2. Add an exception for `Minesweeper.exe`
+2. Add an exception for `Minedetector.exe`
 3. Report it as a false positive to your antivirus vendor
 
 ### Verification
@@ -198,7 +198,7 @@ sudo dnf install python3-tkinter
 
 **Solution**: Try building with `--console` flag to see error messages:
 ```bash
-python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --console --name=Minedetector --clean main.py
 ```
 Run the executable from a command prompt to see any error messages.
 
@@ -228,7 +228,7 @@ Run the executable from a command prompt to see any error messages.
 ### Project Structure
 
 ```
-Minesweeper/
+Minedetector/
 ├── main.py              # Application entry point
 ├── src/
 │   ├── game/           # Game logic modules
@@ -255,7 +255,7 @@ If you want to understand or modify the build process:
 
 1. **First build** (generates `main.spec`):
    ```bash
-   python -m PyInstaller --onefile --windowed --name=Minesweeper main.py
+   python -m PyInstaller --onefile --windowed --name=Minedetector main.py
    ```
 
 2. **Edit `main.spec`** (if needed):
@@ -278,6 +278,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Acknowledgments
 
-- Original Minesweeper game by Microsoft
+- Original Minedetector game by Microsoft
 - Built with Python and Tkinter
 - Packaged with PyInstaller
