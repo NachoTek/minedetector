@@ -38,9 +38,9 @@ Solutions for 7 common issues:
 
 ## Environment Limitation
 
-**BLOCKER**: The dist/Minesweeper.exe executable does not exist because:
+**BLOCKER**: The dist/minedetector.exe executable does not exist because:
 - This worktree has security restrictions preventing PyInstaller execution
-- Cannot run: `pyinstaller --onefile --windowed --name=Minesweeper --clean main.py`
+- Cannot run: `pyinstaller --onefile --windowed --name=minedetector --clean main.py`
 
 **Status**: Verification documentation is complete and ready for execution when the production build is created in an unrestricted environment.
 
@@ -62,7 +62,7 @@ When the executable is built in an unrestricted environment:
 
 1. **Build executable**:
    ```bash
-   pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+   pyinstaller --onefile --windowed --name=minedetector --clean main.py
    ```
 
 2. **Run verification procedures**:

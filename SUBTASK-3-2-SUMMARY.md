@@ -4,7 +4,7 @@
 2025-01-22
 
 ## Objective
-Verify that the production build of Minesweeper.exe launches without showing a console window, which is critical for a professional Tkinter GUI application.
+Verify that the production build of minedetector.exe launches without showing a console window, which is critical for a professional Tkinter GUI application.
 
 ## What Was Verified
 
@@ -12,14 +12,14 @@ Verify that the production build of Minesweeper.exe launches without showing a c
 
 **build-prod.bat (Windows)**
 ```batch
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 - Line 20: Contains `--windowed` flag
 - Comment on line 17: Explains importance of --windowed for Tkinter
 
 **build-prod.sh (Unix/Git Bash)**
 ```bash
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 - Line 19: Contains `--windowed` flag
 - Comment on line 16: Explains importance of --windowed for Tkinter
@@ -103,7 +103,7 @@ The `--windowed` flag tells PyInstaller to:
 This worktree has security restrictions that prevent execution of Python/pip/PyInstaller commands.
 
 **Impact:**
-- The actual `dist/Minesweeper.exe` executable cannot be created
+- The actual `dist/minedetector.exe` executable cannot be created
 - Live manual verification cannot be performed
 - However, all build configurations have been verified and are correct
 
@@ -120,11 +120,11 @@ When the executable is built, verify:
    ```cmd
    build-prod.bat
    # or
-   pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+   pyinstaller --onefile --windowed --name=minedetector --clean main.py
    ```
 
 2. **Run the executable:**
-   - Double-click `dist/Minesweeper.exe`
+   - Double-click `dist/minedetector.exe`
    - Or run from command line
 
 3. **Observe launch:**
@@ -132,8 +132,8 @@ When the executable is built, verify:
    - ❌ FAIL: Black console window also appears
 
 4. **Verify in Task Manager:**
-   - ✅ PASS: Only `Minesweeper.exe` process
-   - ❌ FAIL: `Minesweeper.exe` + `conhost.exe`
+   - ✅ PASS: Only `minedetector.exe` process
+   - ❌ FAIL: `minedetector.exe` + `conhost.exe`
 
 5. **Test on clean machine:**
    - Copy executable to machine without Python

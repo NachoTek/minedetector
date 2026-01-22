@@ -12,14 +12,14 @@
 
 **Line 20**: Contains the critical `--windowed` flag
 ```batch
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 
 **What this does:**
 - `--windowed`: Hides the console window for GUI applications (Tkinter)
 - `--onefile`: Creates a single portable executable
 - `--clean`: Clears build cache for fresh output
-- `--name=Minesweeper`: Sets output executable name
+- `--name=minedetector`: Sets output executable name
 
 ### Spec File Configuration (main.spec)
 
@@ -37,7 +37,7 @@ console=False,  # Critical: Hide console window for Tkinter GUI application
 
 ## Verification Required After Build
 
-Since the production executable (`dist/Minesweeper.exe`) cannot be created in this restricted environment, the following verification must be performed when the build is executed in an unrestricted environment.
+Since the production executable (`dist/minedetector.exe`) cannot be created in this restricted environment, the following verification must be performed when the build is executed in an unrestricted environment.
 
 ### Manual Verification Steps
 
@@ -45,15 +45,15 @@ Since the production executable (`dist/Minesweeper.exe`) cannot be created in th
    ```cmd
    build-prod.bat
    # or
-   pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+   pyinstaller --onefile --windowed --name=minedetector --clean main.py
    ```
 
 2. **Run the executable:**
    ```cmd
    cd dist
-   Minesweeper.exe
+   minedetector.exe
    ```
-   Or simply double-click `dist/Minesweeper.exe` in File Explorer
+   Or simply double-click `dist/minedetector.exe` in File Explorer
 
 3. **Observe the application launch:**
    - ✅ **PASS**: Only the game window appears
@@ -116,7 +116,7 @@ If the console window appears when running the executable:
 
 Ensure the build command includes `--windowed`:
 ```bash
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 
 ### Solution 2: Check main.spec
@@ -138,14 +138,14 @@ Sometimes the build cache retains old settings:
 # Clean build directories
 rmdir /s /q build dist
 # Rebuild with --windowed flag
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 
 ### Solution 4: Temporary Debug Build
 
 If you need to see error messages, build with console:
 ```bash
-pyinstaller --onefile --console --name=Minesweeper --clean main.py
+pyinstaller --onefile --console --name=minedetector --clean main.py
 ```
 This will show the console and allow you to see any error output. Fix the errors, then rebuild with `--windowed`.
 
@@ -153,13 +153,13 @@ This will show the console and allow you to see any error output. Fix the errors
 
 ## Verification Checklist
 
-After building `dist/Minesweeper.exe`, verify:
+After building `dist/minedetector.exe`, verify:
 
-- [ ] Executable exists: `dist/Minesweeper.exe` (> 5MB)
+- [ ] Executable exists: `dist/minedetector.exe` (> 5MB)
 - [ ] Double-clicking the executable launches the game
 - [ ] **Only one window appears** (the game window)
 - [ ] **No black console window is visible**
-- [ ] Task Manager shows only "Minesweeper.exe" (no console subprocess)
+- [ ] Task Manager shows only "minedetector.exe" (no console subprocess)
 - [ ] Application behaves identically to `python main.py`
 - [ ] No error messages or crash dialogs appear
 
@@ -185,12 +185,12 @@ After building `dist/Minesweeper.exe`, verify:
 
 ### Task Manager Verification
 
-1. Launch Minesweeper.exe
+1. Launch minedetector.exe
 2. Open Task Manager (Ctrl+Shift+Esc)
 3. Go to "Details" tab
 4. Look for processes:
-   - ✅ **PASS**: Only `Minesweeper.exe` is present
-   - ❌ **FAIL**: `Minesweeper.exe` + `conhost.exe` (console host)
+   - ✅ **PASS**: Only `minedetector.exe` is present
+   - ❌ **FAIL**: `minedetector.exe` + `conhost.exe` (console host)
 
 ### PowerShell Verification
 
@@ -220,13 +220,13 @@ If `MainWindowTitle` is empty or you see multiple processes, the console may be 
    - Both files are correctly configured
 
 2. Executable is built in unrestricted environment
-   - `dist/Minesweeper.exe` exists
+   - `dist/minedetector.exe` exists
    - File size is > 5MB (includes bundled Python)
 
 3. Manual verification confirms console is hidden
    - Running executable shows only game window
    - No black console window appears
-   - Task Manager shows only Minesweeper.exe process
+   - Task Manager shows only minedetector.exe process
 
 **Current Status:**
 - ✅ Configuration verified and correct
@@ -243,7 +243,7 @@ If `MainWindowTitle` is empty or you see multiple processes, the console may be 
    ```
 
 2. **Verify console window:**
-   - Run `dist/Minesweeper.exe`
+   - Run `dist/minedetector.exe`
    - Confirm only game window appears
    - Check Task Manager for single process
 
