@@ -2,7 +2,7 @@
 
 ## Current Status
 
-⚠️ **Environment Limitation**: The development build executable (`dist/Minesweeper/Minesweeper.exe`) could not be created in this worktree environment due to security restrictions that prevent running Python/pip commands.
+⚠️ **Environment Limitation**: The development build executable (`dist/minedetector/minedetector.exe`) could not be created in this worktree environment due to security restrictions that prevent running Python/pip commands.
 
 ### What Was Completed
 - ✅ `main.spec` file created with proper PyInstaller configuration
@@ -13,10 +13,10 @@
 ### What Requires External Execution
 The actual PyInstaller build must be executed in an unrestricted environment:
 ```bash
-pyinstaller --onedir --windowed --name=Minesweeper main.py
+pyinstaller --onedir --windowed --name=minedetector main.py
 ```
 
-This will create: `dist/Minesweeper/Minesweeper.exe`
+This will create: `dist/minedetector/minedetector.exe`
 
 ---
 
@@ -24,8 +24,8 @@ This will create: `dist/Minesweeper/Minesweeper.exe`
 
 ### Prerequisites
 1. PyInstaller must be installed: `pip install -r requirements.txt`
-2. Build command executed: `pyinstaller --onedir --windowed --name=Minesweeper main.py`
-3. Executable created: `dist/Minesweeper/Minesweeper.exe`
+2. Build command executed: `pyinstaller --onedir --windowed --name=minedetector main.py`
+3. Executable created: `dist/minedetector/minedetector.exe`
 
 ### Test Environment
 - **Operating System**: Windows 10 or 11
@@ -40,8 +40,8 @@ This will create: `dist/Minesweeper/Minesweeper.exe`
 
 **Test Case**: Application launches correctly
 **Steps**:
-1. Navigate to `dist/Minesweeper/` directory
-2. Double-click `Minesweeper.exe`
+1. Navigate to `dist/minedetector/` directory
+2. Double-click `minedetector.exe`
 3. Observe the application startup
 
 **Expected Results**:
@@ -314,13 +314,13 @@ Click reset → Timer resets to 000
 **Steps**:
 1. Launch the executable
 2. Open Task Manager (Ctrl+Shift+Esc)
-3. Look for Minesweeper.exe process
+3. Look for minedetector.exe process
 4. Check for associated console windows
 
 **Expected Results**:
 - ✅ Only one window visible (the game window)
 - ✅ No black console/command prompt window
-- ✅ Task Manager shows Minesweeper.exe as main process
+- ✅ Task Manager shows minedetector.exe as main process
 - ✅ No python.exe or pythonw.exe processes (should be bundled)
 
 **Additional Verification**:
@@ -361,9 +361,9 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 
 **Test Case**: Runs without Python installed
 **Steps**:
-1. Copy entire `dist/Minesweeper/` folder to a different location
+1. Copy entire `dist/minedetector/` folder to a different location
 2. **Critical Test**: Copy to a machine WITHOUT Python installed
-3. Run `Minesweeper.exe` from new location
+3. Run `minedetector.exe` from new location
 4. Test basic functionality
 
 **Expected Results**:
@@ -387,13 +387,13 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 
 1. **Rebuild with console for error messages**:
    ```bash
-   pyinstaller --onedir --console --name=Minesweeper main.py
+   pyinstaller --onedir --console --name=minedetector main.py
    ```
 
 2. **Run from command line to see errors**:
    ```cmd
    cd dist\Minesweeper
-   Minesweeper.exe
+   minedetector.exe
    ```
 
 3. **Check for common issues**:
@@ -406,7 +406,7 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 1. **Check main.spec**: Verify `console=False`
 2. **Rebuild with windowed flag**:
    ```bash
-   pyinstaller --onedir --windowed --name=Minesweeper --clean main.py
+   pyinstaller --onedir --windowed --name=minedetector --clean main.py
    ```
 
 ### If Features Don't Work
@@ -419,7 +419,7 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 
 3. **Enable debug mode**:
    ```bash
-   pyinstaller --onedir --windowed --debug=all --name=Minesweeper main.py
+   pyinstaller --onedir --windowed --debug=all --name=minedetector main.py
    ```
 
 ---
@@ -434,8 +434,8 @@ Minesweeper Development Build Test Report
 
 Build Information:
 - Build Date: [DATE]
-- Build Command: pyinstaller --onedir --windowed --name=Minesweeper main.py
-- Executable Location: dist/Minesweeper/Minesweeper.exe
+- Build Command: pyinstaller --onedir --windowed --name=minedetector main.py
+- Executable Location: dist/minedetector/minedetector.exe
 - Executable Size: [SIZE] MB
 - Test Environment: Windows [VERSION]
 

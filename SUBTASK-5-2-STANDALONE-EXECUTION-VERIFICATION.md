@@ -2,15 +2,15 @@
 
 ## Overview
 
-This document provides comprehensive procedures for verifying that the Minesweeper.exe executable is truly standalone and portable, requiring no Python installation or external dependencies.
+This document provides comprehensive procedures for verifying that the minedetector.exe executable is truly standalone and portable, requiring no Python installation or external dependencies.
 
 **Critical Test**: This is the **core requirement** of the entire packaging task. The executable must run from any location on any Windows machine without requiring Python or any dependencies.
 
 ## Prerequisites
 
 ### Build Requirements
-- Production executable must exist: `dist/Minesweeper.exe`
-- Build command: `pyinstaller --onefile --windowed --name=Minesweeper --clean main.py`
+- Production executable must exist: `dist/minedetector.exe`
+- Build command: `pyinstaller --onefile --windowed --name=minedetector --clean main.py`
 - Expected size: 5-15 MB (includes bundled Python interpreter and Tkinter)
 
 ### Test Environments
@@ -41,15 +41,15 @@ This document provides comprehensive procedures for verifying that the Minesweep
 #### Step 1: Copy to Test Locations
 ```powershell
 # On Windows
-copy dist\Minesweeper.exe %USERPROFILE%\Desktop\
-copy dist\Minesweeper.exe %USERPROFILE%\Downloads\
+copy dist\minedetector.exe %USERPROFILE%\Desktop\
+copy dist\minedetector.exe %USERPROFILE%\Downloads\
 # If USB available
-copy dist\Minesweeper.exe E:\\
+copy dist\minedetector.exe E:\\
 ```
 
 #### Step 2: Run from Desktop
 1. Navigate to Desktop
-2. Double-click `Minesweeper.exe`
+2. Double-click `minedetector.exe`
 3. **Verification Points**:
    - [ ] Application launches successfully
    - [ ] No error messages about missing Python
@@ -59,7 +59,7 @@ copy dist\Minesweeper.exe E:\\
 
 #### Step 3: Run from Downloads
 1. Navigate to Downloads folder
-2. Double-click `Minesweeper.exe`
+2. Double-click `minedetector.exe`
 3. **Verification Points**:
    - [ ] Application launches successfully
    - [ ] No errors about missing dependencies
@@ -67,7 +67,7 @@ copy dist\Minesweeper.exe E:\\
 
 #### Step 4: Run from External Drive (if available)
 1. Navigate to USB drive
-2. Double-click `Minesweeper.exe`
+2. Double-click `minedetector.exe`
 3. **Verification Points**:
    - [ ] Application launches from external drive
    - [ ] No performance degradation
@@ -91,12 +91,12 @@ copy dist\Minesweeper.exe E:\\
    ```
 
 #### Test Execution
-1. Copy `Minesweeper.exe` to Desktop
+1. Copy `minedetector.exe` to Desktop
 2. Double-click to run
 3. **Verification Points**:
    - [ ] Application launches without any Python installation
    - [ ] No error dialogs appear
-   - [ ] Task Manager shows only `Minesweeper.exe` process (no `python.exe`)
+   - [ ] Task Manager shows only `minedetector.exe` process (no `python.exe`)
    - [ ] Game is fully functional
 
 **Acceptance Criteria**: Application runs perfectly on machine without Python.
@@ -109,7 +109,7 @@ copy dist\Minesweeper.exe E:\\
 
 #### Step 1: Dependency Walker Analysis (Optional)
 1. Download Dependencies Walker (depends.exe) or use Visual Studio's dependency tool
-2. Open `Minesweeper.exe` in Dependency Walker
+2. Open `minedetector.exe` in Dependency Walker
 3. **Verification Points**:
    - [ ] No missing DLL dependencies
    - [ ] Only Windows system DLLs listed (kernel32.dll, user32.dll, etc.)
@@ -117,7 +117,7 @@ copy dist\Minesweeper.exe E:\\
 
 #### Step 2: Process Monitor Analysis (Optional)
 1. Download Process Monitor from Sysinternals
-2. Set filters to Process Name is `Minesweeper.exe`
+2. Set filters to Process Name is `minedetector.exe`
 3. Run the executable
 4. **Verification Points**:
    - [ ] No attempts to load Python DLLs from system paths
@@ -134,10 +134,10 @@ copy dist\Minesweeper.exe E:\\
 
 #### Test Execution
 1. If you have multiple drives (C:, D:, etc.) or a USB drive:
-2. Copy `Minesweeper.exe` to each drive:
+2. Copy `minedetector.exe` to each drive:
    ```powershell
-   copy dist\Minesweeper.exe D:\Temp\Minesweeper.exe
-   copy dist\Minesweeper.exe E:\Minesweeper.exe
+   copy dist\minedetector.exe D:\Temp\minedetector.exe
+   copy dist\minedetector.exe E:\minedetector.exe
    ```
 3. Run from each location
 4. **Verification Points**:
@@ -156,12 +156,12 @@ copy dist\Minesweeper.exe E:\\
 **Objective**: Verify executable runs from network share without local installation.
 
 #### Test Execution
-1. Copy `Minesweeper.exe` to a network share:
+1. Copy `minedetector.exe` to a network share:
    ```powershell
-   copy dist\Minesweeper.exe \\server\share\Minesweeper.exe
+   copy dist\minedetector.exe \\server\share\minedetector.exe
    ```
 2. Navigate to network share in File Explorer
-3. Double-click `Minesweeper.exe`
+3. Double-click `minedetector.exe`
 4. **Verification Points**:
    - [ ] Application launches from network share
    - [ ] No performance issues
@@ -177,7 +177,7 @@ copy dist\Minesweeper.exe E:\\
 **Objective**: Verify no installation process is needed.
 
 #### Test Execution
-1. Copy `Minesweeper.exe` to a new location
+1. Copy `minedetector.exe` to a new location
 2. Immediately run it (no "installation" steps)
 3. **Verification Points**:
    - [ ] No installer required
@@ -197,7 +197,7 @@ copy dist\Minesweeper.exe E:\\
 
 #### Test Execution
 1. Disconnect from network (disable WiFi, unplug ethernet)
-2. Run `Minesweeper.exe`
+2. Run `minedetector.exe`
 3. **Verification Points**:
    - [ ] Application launches offline
    - [ ] No attempts to connect to internet
@@ -257,7 +257,7 @@ Complete this checklist after performing all procedures:
 3. Check file size (should be 5-15 MB, not < 1 MB)
 
 **Solution**:
-- Rebuild with: `pyinstaller --onefile --windowed --name=Minesweeper --clean main.py`
+- Rebuild with: `pyinstaller --onefile --windowed --name=minedetector --clean main.py`
 - Verify PyInstaller version >= 6.0
 
 ---
@@ -333,7 +333,7 @@ Complete this checklist after performing all procedures:
 3. Verify all src/ modules are bundled
 
 **Solution**:
-- Run debug build: `pyinstaller --onefile --console --name=Minesweeper main.py`
+- Run debug build: `pyinstaller --onefile --console --name=minedetector main.py`
 - Read error messages in console window
 - Fix missing imports or data files
 - Rebuild with `--windowed` after debugging
@@ -349,9 +349,9 @@ After completing all verification procedures, document your results:
 
 **Date**: [Date]
 **Tester**: [Name]
-**Executable**: dist/Minesweeper.exe
+**Executable**: dist/minedetector.exe
 **Size**: [Size] MB
-**Build Command**: pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+**Build Command**: pyinstaller --onefile --windowed --name=minedetector --clean main.py
 
 ## Test Environments
 - Windows 10: [Pass/Fail] - Version [X.X]

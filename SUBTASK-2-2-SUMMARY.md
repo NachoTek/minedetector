@@ -15,7 +15,7 @@
 2. **build-dev.sh** - Unix/Linux build script
    - Automated build process for unrestricted environments
    - Checks for PyInstaller installation
-   - Runs `pyinstaller --onedir --windowed --name=Minesweeper main.py`
+   - Runs `pyinstaller --onedir --windowed --name=minedetector main.py`
    - Reports build success/failure
 
 3. **build-dev.bat** - Windows build script
@@ -52,21 +52,21 @@ When this code runs in an **unrestricted environment** (user's local machine or 
 
 3. Or run PyInstaller directly:
    ```bash
-   pyinstaller --onedir --windowed --name=Minesweeper main.py
+   pyinstaller --onedir --windowed --name=minedetector main.py
    ```
 
 4. This will create:
-   - `dist/Minesweeper/Minesweeper.exe` - The executable
-   - `dist/Minesweeper/` - Folder with all dependencies
+   - `dist/minedetector/minedetector.exe` - The executable
+   - `dist/minedetector/` - Folder with all dependencies
    - `build/` - Build cache directory
 
 ### Verification (to be run in unrestricted environment)
 
 ```bash
 # Should show:
-# - dist/Minesweeper/Minesweeper.exe (executable)
+# - dist/minedetector/minedetector.exe (executable)
 # - main.spec (configuration file)
-ls -la dist/Minesweeper/ && ls -la main.spec
+ls -la dist/minedetector/ && ls -la main.spec
 ```
 
 ### Configuration Details

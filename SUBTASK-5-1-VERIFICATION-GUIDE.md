@@ -9,7 +9,7 @@
 
 ## Current Status
 
-⚠️ **Environment Limitation**: The production build executable (`dist/Minesweeper.exe`) cannot be created in this worktree environment due to security restrictions that prevent running Python/pip/PyInstaller commands.
+⚠️ **Environment Limitation**: The production build executable (`dist/minedetector.exe`) cannot be created in this worktree environment due to security restrictions that prevent running Python/pip/PyInstaller commands.
 
 ### What Was Completed in Previous Phases
 - ✅ PyInstaller added to requirements.txt
@@ -22,10 +22,10 @@
 ### What Requires External Execution
 The actual PyInstaller production build must be executed in an unrestricted environment:
 ```bash
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=minedetector --clean main.py
 ```
 
-This will create: `dist/Minesweeper.exe` (single-file portable executable)
+This will create: `dist/minedetector.exe` (single-file portable executable)
 
 ---
 
@@ -34,7 +34,7 @@ This will create: `dist/Minesweeper.exe` (single-file portable executable)
 ### Build Requirements
 1. **PyInstaller Installation**: `pip install -r requirements.txt`
 2. **Production Build Command**: `build-prod.bat` (Windows) or `build-prod.sh` (Unix/Git Bash)
-3. **Expected Output**: `dist/Minesweeper.exe` (5-15MB, single file)
+3. **Expected Output**: `dist/minedetector.exe` (5-15MB, single file)
 
 ### Test Environment
 - **Operating System**: Windows 10 or 11
@@ -49,7 +49,7 @@ This verification follows the exact steps from the implementation plan (subtask-
 
 ### 1. Launch Executable ✅
 
-**Command**: `dist/Minesweeper.exe` (double-click or run from command line)
+**Command**: `dist/minedetector.exe` (double-click or run from command line)
 
 **Verification Points**:
 - [ ] Application launches within 2-3 seconds
@@ -72,7 +72,7 @@ This verification follows the exact steps from the implementation plan (subtask-
 **Visual Inspection**:
 - [ ] Only one window visible (Minesweeper game window)
 - [ ] No black console/command prompt window
-- [ ] Only Minesweeper.exe in Task Manager (no conhost.exe)
+- [ ] Only minedetector.exe in Task Manager (no conhost.exe)
 
 **Additional Verification** (PowerShell):
 ```powershell
@@ -330,8 +330,8 @@ Subtask 5-1 Verification Report
 
 Build Information:
 - Build Date: [DATE]
-- Build Command: pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
-- Executable Location: dist/Minesweeper.exe
+- Build Command: pyinstaller --onefile --windowed --name=minedetector --clean main.py
+- Executable Location: dist/minedetector.exe
 - Executable Size: [SIZE] MB
 - Test Environment: Windows [VERSION]
 - Python Installed: [YES/NO (should be NO for portability test)]
@@ -380,7 +380,7 @@ Next Steps:
 
 1. **Rebuild with console for error messages**:
    ```bash
-   pyinstaller --onefile --console --name=Minesweeper --clean main.py
+   pyinstaller --onefile --console --name=minedetector --clean main.py
    ```
 
 2. **Check for common issues**:
@@ -396,7 +396,7 @@ Next Steps:
 
 2. **Rebuild with --windowed flag**:
    ```bash
-   pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+   pyinstaller --onefile --windowed --name=minedetector --clean main.py
    ```
 
 ### If Features Don't Work
@@ -410,7 +410,7 @@ Next Steps:
 
 3. **Enable debug mode**:
    ```bash
-   pyinstaller --onefile --windowed --debug=all --name=Minesweeper main.py
+   pyinstaller --onefile --windowed --debug=all --name=minedetector main.py
    ```
 
 ---
