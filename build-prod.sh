@@ -6,7 +6,7 @@ echo "Building Minesweeper production executable (onefile mode)..."
 echo "This creates a single portable .exe file with bundled Python interpreter"
 
 # Check if PyInstaller is installed
-if ! command -v pyinstaller &> /dev/null; then
+if ! python -m PyInstaller --version &> /dev/null; then
     echo "PyInstaller not found. Installing..."
     pip install -r requirements.txt
 fi
@@ -16,7 +16,8 @@ fi
 # --windowed: Hides console window (critical for Tkinter GUI)
 # --clean: Clears build cache for fresh output
 # --name: Sets output executable name
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+# NOTE: Using 'python -m PyInstaller' instead of 'pyinstaller' to avoid PATH issues
+python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
 
 # Check if build was successful
 if [ -f "dist/Minesweeper.exe" ]; then

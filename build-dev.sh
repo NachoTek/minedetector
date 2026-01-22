@@ -5,13 +5,14 @@
 echo "Building Minesweeper development executable (onedir mode)..."
 
 # Check if PyInstaller is installed
-if ! command -v pyinstaller &> /dev/null; then
+if ! python -m PyInstaller --version &> /dev/null; then
     echo "PyInstaller not found. Installing..."
     pip install -r requirements.txt
 fi
 
 # Run PyInstaller with onedir mode for faster development builds
-pyinstaller --onedir --windowed --name=Minesweeper main.py
+# NOTE: Using 'python -m PyInstaller' instead of 'pyinstaller' to avoid PATH issues
+python -m PyInstaller --onedir --windowed --name=Minesweeper main.py
 
 # Check if build was successful
 if [ -f "dist/Minesweeper/Minesweeper.exe" ]; then

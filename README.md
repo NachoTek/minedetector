@@ -97,18 +97,20 @@ If you prefer to build manually or customize the build process:
 
 **Production Build (Single Portable Executable)**:
 ```bash
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
 ```
 
 **Development Build (Faster, Easier to Debug)**:
 ```bash
-pyinstaller --onedir --windowed --name=Minesweeper --clean main.py
+python -m PyInstaller --onedir --windowed --name=Minesweeper --clean main.py
 ```
 
 **Debug Build (Shows Console for Error Messages)**:
 ```bash
-pyinstaller --onefile --console --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
 ```
+
+**Note**: Using `python -m PyInstaller` instead of `pyinstaller` directly ensures the command works regardless of your system PATH configuration.
 
 ### Build Flags Explained
 
@@ -196,7 +198,7 @@ sudo dnf install python3-tkinter
 
 **Solution**: Try building with `--console` flag to see error messages:
 ```bash
-pyinstaller --onefile --console --name=Minesweeper --clean main.py
+python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
 ```
 Run the executable from a command prompt to see any error messages.
 
@@ -253,7 +255,7 @@ If you want to understand or modify the build process:
 
 1. **First build** (generates `main.spec`):
    ```bash
-   pyinstaller --onefile --windowed --name=Minesweeper main.py
+   python -m PyInstaller --onefile --windowed --name=Minesweeper main.py
    ```
 
 2. **Edit `main.spec`** (if needed):
@@ -263,7 +265,7 @@ If you want to understand or modify the build process:
 
 3. **Rebuild using spec file**:
    ```bash
-   pyinstaller --clean main.spec
+   python -m PyInstaller --clean main.spec
    ```
 
 ## License
