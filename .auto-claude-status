@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "003-package-the-application-as-a-portable-single-windo",
+  "state": "building",
+  "subtasks": {
+    "completed": 11,
+    "total": 12,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Comprehensive Testing and Verification",
+    "id": null,
+    "total": 3
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 11,
+    "started_at": "2026-01-22T08:17:29.912861"
+  },
+  "last_update": "2026-01-22T08:59:16.907949"
+}
