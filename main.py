@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Minesweeper Game - Main Entry Point
+Minedetector Game - Main Entry Point
 
-This is the main entry point for the Minesweeper game application.
+This is the main entry point for the Minedetector game application.
 It creates and starts the main game window.
 """
 
@@ -11,7 +11,7 @@ from src.ui.main_window import MainWindow
 
 
 def main():
-    """Main entry point for the Minesweeper game."""
+    """Main entry point for the Minedetector game."""
     try:
         # Create the main window
         window = MainWindow()
