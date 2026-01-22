@@ -1,9 +1,9 @@
 # -*- mode: python ; coding: utf-8 -*-
 """
-PyInstaller spec file for Minesweeper game application.
+PyInstaller spec file for Minedetector game application.
 
 This configuration creates a Windows executable using onedir mode (faster for development).
-For production single-file build, use: python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
+For production single-file build, use: python -m PyInstaller --onefile --windowed --name=Minedetector --clean main.py
 """
 
 block_cipher = None
@@ -55,7 +55,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Minesweeper',
+    name='Minedetector',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
