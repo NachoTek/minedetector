@@ -94,6 +94,10 @@ class GameGrid:
         self.on_cell_right_click = on_cell_right_click
         """Optional callback function for right-click events on cells."""
 
+        # Get root window for scheduling deferred updates
+        self.root = parent.winfo_toplevel()
+        """The root Tkinter window for scheduling deferred updates."""
+
         # Create frame to hold the grid
         self.frame = tk.Frame(parent, relief="sunken", bd=2)
         """The frame widget containing the grid of cell buttons."""
@@ -245,6 +249,37 @@ class GameGrid:
                 relief="raised",
                 bg="lightgray"
             )
+
+    def update_cell_deferred(self, row: int, col: int) -> None:
+        """
+        Update the visual appearance of a single cell after event processing completes.
+
+        This method schedules a cell update to happen after Tkinter finishes processing
+        the current event. This is necessary to ensure that the button's visual state
+        (e.g., sunken relief for revealed cells) is applied AFTER Tkinter's default
+        button event handling completes, which would otherwise reset the button state.
+
+        Use this method for clicked cells to ensure their "sunken" state persists
+        after button release events.
+
+        Args:
+            row: Row index of the cell to update (0-based).
+            col: Column index of the cell to update (0-based).
+
+        Raises:
+            IndexError: If coordinates are out of bounds.
+        """
+        if not self.board.is_valid_coordinate(row, col):
+            raise IndexError(
+                f"Cannot update cell ({row}, {col}): "
+                f"out of bounds for board size ({self.board.rows}x{self.board.cols})"
+            )
+
+        # Schedule the update to happen after Tkinter finishes processing
+        # the current button release event. This ensures our visual state
+        # (sunken relief for revealed cells) is applied AFTER Tkinter's
+        # default button behavior tries to reset it to raised.
+        self.root.after(0, lambda: self.update_cell(row, col))
 
     def update_all_cells(self) -> None:
         """
