@@ -41,7 +41,7 @@ A classic Minesweeper game built with Python and Tkinter. This desktop applicati
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd minedetector
+   cd Minesweeper
    ```
 
 2. No additional dependencies are required! The game uses only Python's standard library.
@@ -89,7 +89,7 @@ These scripts will:
 - Clean any previous build artifacts
 - Create a single-file executable with `--onefile` mode
 - Hide the console window (GUI-only mode)
-- Output the executable to `dist/minedetector.exe`
+- Output the executable to `dist/Minesweeper.exe`
 
 #### Option 2: Manual Build
 
@@ -97,17 +97,17 @@ If you prefer to build manually or customize the build process:
 
 **Production Build (Single Portable Executable)**:
 ```bash
-python -m PyInstaller --onefile --windowed --name=minedetector --clean main.py
+python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
 ```
 
 **Development Build (Faster, Easier to Debug)**:
 ```bash
-python -m PyInstaller --onedir --windowed --name=minedetector --clean main.py
+python -m PyInstaller --onedir --windowed --name=Minesweeper --clean main.py
 ```
 
 **Debug Build (Shows Console for Error Messages)**:
 ```bash
-python -m PyInstaller --onefile --console --name=minedetector --clean main.py
+python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
 ```
 
 **Note**: Using `python -m PyInstaller` instead of `pyinstaller` directly ensures the command works regardless of your system PATH configuration.
@@ -119,20 +119,20 @@ python -m PyInstaller --onefile --console --name=minedetector --clean main.py
 - `--windowed` or `--noconsole`: Hides the console window (required for GUI applications)
 - `--console`: Shows the console window (useful for debugging)
 - `--clean`: Cleans the build cache before building (ensures fresh output)
-- `--name=minedetector`: Sets the output executable name
+- `--name=Minesweeper`: Sets the output executable name
 
 ### Output Location
 
 After building, you'll find the executable here:
-- **Single-file build**: `dist/minedetector.exe`
-- **Directory build**: `dist/minedetector/minedetector.exe`
+- **Single-file build**: `dist/Minesweeper.exe`
+- **Directory build**: `dist/Minesweeper/Minesweeper.exe`
 
 The single-file executable is typically 5-15 MB in size, as it bundles the entire Python runtime and Tkinter library.
 
 ### Testing the Executable
 
 1. Navigate to the `dist` folder
-2. Double-click `minedetector.exe`
+2. Double-click `Minesweeper.exe`
 3. Verify the game launches without a console window
 4. Test all game features to ensure everything works correctly
 
@@ -162,7 +162,7 @@ Some antivirus software may flag PyInstaller-generated executables as suspicious
 **The executable is safe** - it's simply the Minesweeper game with no malicious behavior. If your antivirus blocks it:
 
 1. Check your antivirus quarantine/exclusions settings
-2. Add an exception for `minedetector.exe`
+2. Add an exception for `Minesweeper.exe`
 3. Report it as a false positive to your antivirus vendor
 
 ### Verification
@@ -198,7 +198,7 @@ sudo dnf install python3-tkinter
 
 **Solution**: Try building with `--console` flag to see error messages:
 ```bash
-python -m PyInstaller --onefile --console --name=minedetector --clean main.py
+python -m PyInstaller --onefile --console --name=Minesweeper --clean main.py
 ```
 Run the executable from a command prompt to see any error messages.
 
@@ -228,7 +228,7 @@ Run the executable from a command prompt to see any error messages.
 ### Project Structure
 
 ```
-minedetector/
+Minesweeper/
 ├── main.py              # Application entry point
 ├── src/
 │   ├── game/           # Game logic modules
@@ -255,7 +255,7 @@ If you want to understand or modify the build process:
 
 1. **First build** (generates `main.spec`):
    ```bash
-   python -m PyInstaller --onefile --windowed --name=minedetector main.py
+   python -m PyInstaller --onefile --windowed --name=Minesweeper main.py
    ```
 
 2. **Edit `main.spec`** (if needed):
