@@ -1,8 +1,8 @@
 #!/bin/bash
-# Build script for minedetector production executable (single-file portable)
+# Build script for Minesweeper production executable (single-file portable)
 # This script should be run in an unrestricted environment
 
-echo "Building minedetector production executable (onefile mode)..."
+echo "Building Minesweeper production executable (onefile mode)..."
 echo "This creates a single portable .exe file with bundled Python interpreter"
 
 # Check if PyInstaller is installed
@@ -17,17 +17,17 @@ fi
 # --clean: Clears build cache for fresh output
 # --name: Sets output executable name
 # NOTE: Using 'python -m PyInstaller' instead of 'pyinstaller' to avoid PATH issues
-python -m PyInstaller --onefile --windowed --name=minedetector --clean main.py
+python -m PyInstaller --onefile --windowed --name=Minesweeper --clean main.py
 
 # Check if build was successful
-if [ -f "dist/minedetector.exe" ]; then
+if [ -f "dist/Minesweeper.exe" ]; then
     echo "✓ Build successful!"
-    echo "✓ Executable: dist/minedetector.exe"
-    echo "✓ Size: $(ls -lh dist/minedetector.exe | awk '{print $5}')"
+    echo "✓ Executable: dist/Minesweeper.exe"
+    echo "✓ Size: $(ls -lh dist/Minesweeper.exe | awk '{print $5}')"
     echo ""
     echo "Production executable ready for distribution!"
     echo "This is a portable single-file executable - no installation required."
-    ls -lh dist/minedetector.exe
+    ls -lh dist/Minesweeper.exe
 else
     echo "✗ Build failed"
     exit 1
