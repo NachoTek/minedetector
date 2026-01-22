@@ -14,7 +14,7 @@ def chord_cell(grid: List[List[Cell]], row: int, col: int, rows: int, cols: int)
     """
     Perform chording on a revealed numbered cell.
 
-    Chording is a Minesweeper mechanic where clicking on a revealed numbered cell
+    Chording is a Minedetector mechanic where clicking on a revealed numbered cell
     will automatically reveal all its unflagged neighbors, but only if the number
     of flagged neighbors exactly equals the cell's adjacent mine count. This allows
     experienced players to quickly reveal regions they've already solved logically.

@@ -1,7 +1,7 @@
 """
 Board Game Module
 
-Manages the game board for Minesweeper, including the 2D grid of cells,
+Manages the game board for Minedetector, including the 2D grid of cells,
 mine placement, and board-level operations.
 """
 
@@ -16,7 +16,7 @@ from src.game import chording
 
 class Board:
     """
-    Represents the Minesweeper game board as a 2D grid of Cell objects.
+    Represents the Minedetector game board as a 2D grid of Cell objects.
 
     The board manages all cells, handles coordinate validation, and provides
     access to individual cells for game logic operations.
@@ -36,7 +36,7 @@ class Board:
 
     def __init__(self, rows: int, cols: int, mine_count: int):
         """
-        Initialize a new Minesweeper board with the specified dimensions.
+        Initialize a new Minedetector board with the specified dimensions.
 
         Creates a 2D grid of Cell objects with all cells in their initial state:
         - mine: False (no mines placed yet)
@@ -191,7 +191,7 @@ class Board:
         """
         Perform chording on a revealed numbered cell.
 
-        Chording is a Minesweeper mechanic where clicking on a revealed numbered cell
+        Chording is a Minedetector mechanic where clicking on a revealed numbered cell
         will automatically reveal all its unflagged neighbors, but only if the number
         of flagged neighbors exactly equals the cell's adjacent mine count.
 
