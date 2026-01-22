@@ -55,7 +55,7 @@ This verification follows the exact steps from the implementation plan (subtask-
 - [ ] Application launches within 2-3 seconds
 - [ ] Game window appears
 - [ ] No console window appears (black command prompt)
-- [ ] Window title displays "Minesweeper"
+- [ ] Window title displays "Minedetector"
 - [ ] No error messages or crash dialogs
 
 **Expected Result**: Clean launch with only the game window visible
@@ -70,14 +70,14 @@ This verification follows the exact steps from the implementation plan (subtask-
 ### 2. Verify Game Window Appears Without Console ✅
 
 **Visual Inspection**:
-- [ ] Only one window visible (Minesweeper game window)
+- [ ] Only one window visible (Minedetector game window)
 - [ ] No black console/command prompt window
 - [ ] Only minedetector.exe in Task Manager (no conhost.exe)
 
 **Additional Verification** (PowerShell):
 ```powershell
 Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
-# Expected: Only Minesweeper process
+# Expected: Only Minedetector process
 ```
 
 **Expected Result**: Pure GUI application with no console window
