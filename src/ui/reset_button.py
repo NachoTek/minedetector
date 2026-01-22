@@ -1,7 +1,7 @@
 """
 Reset Button Module
 
-Creates and manages the reset button with reactive face icons for the Minesweeper game.
+Creates and manages the reset button with reactive face icons for the Mine Detector game.
 Changes expression based on game state and resets the game when clicked.
 """
 
@@ -11,7 +11,7 @@ from typing import Optional, Callable
 
 class ResetButton:
     """
-    Manages the reset button with reactive face icons for the Minesweeper game.
+    Manages the reset button with reactive face icons for the Mine Detector game.
 
     The reset button displays different face icons based on the current game state:
     - Happy (🙂): Game is in progress, normal playing state
@@ -62,7 +62,7 @@ class ResetButton:
 
         Creates a button widget with the happy face icon (default playing state).
         The button is sized to display emoji clearly and is configured with
-        standard Windows Minesweeper button styling.
+        standard Windows Mine Detector button styling.
 
         Args:
             parent: The parent Tkinter widget to contain the button.
@@ -106,7 +106,7 @@ class ResetButton:
         was provided, and finally resets the face to happy.
 
         The shocked state provides visual feedback during the click action,
-        mimicking the classic Windows Minesweeper behavior.
+        mimicking the classic Windows Mine Detector behavior.
         """
         # Show shocked face momentarily
         self.set_shocked()
