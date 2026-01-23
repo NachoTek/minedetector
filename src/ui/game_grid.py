@@ -138,7 +138,7 @@ class GameGrid:
                 # Bind mouse events
                 # Use ButtonRelease-1 to allow button to show depressed state before updating
                 button.bind(
-                    "<ButtonRelease-1>",
+                    "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
                 )
                 button.bind(
