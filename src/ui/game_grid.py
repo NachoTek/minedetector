@@ -136,7 +136,7 @@ class GameGrid:
                 )
 
                 # Bind mouse events
-                # Use ButtonRelease-1 to allow button to show depressed state before updating
+                # Use Button-1 for immediate response on left-click
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
