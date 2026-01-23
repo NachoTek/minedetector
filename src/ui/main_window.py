@@ -196,7 +196,7 @@ class MainWindow:
             top_frame,
             on_reset=self._reset_game
         )
-        self.reset_button.pack(anchor='center')
+        self.reset_button.pack(side='left', expand=True, anchor='center')
 
         # Create timer (right side)
         self.timer = GameTimer(top_frame)
