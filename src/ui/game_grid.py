@@ -138,9 +138,16 @@ class GameGrid:
 
                 # Bind mouse events
                 # Use Button-1 for immediate response on left-click (fires on mouse down)
+                # Bind ButtonRelease-1 to prevent native button "pop back up" behavior
+                # update_idletasks() calls ensure immediate visual update
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
+                )
+                # Prevent native ButtonRelease-1 from resetting button state
+                button.bind(
+                    "<ButtonRelease-1>",
+                    lambda event: "break"
                 )
                 # Right-click for flagging (fires on mouse down)
                 button.bind(
@@ -158,14 +165,19 @@ class GameGrid:
         """
         Handle left-click event on a cell button.
 
-        This method is called when a cell button is left-clicked. It invokes
-        the on_cell_click callback if one was provided during initialization.
-        The button's visual state is updated by update_cell() after game logic runs.
+        This method is called when a cell button is left-clicked. It immediately
+        sets the button to sunken state to prevent the "pop back up" animation,
+        then invokes the on_cell_click callback if one was provided during initialization.
 
         Args:
             row: Row index of the clicked cell (0-based).
             col: Column index of the clicked cell (0-based).
         """
+        # Immediately set button to sunken state to prevent pop-back-up animation
+        button = self.buttons[row][col]
+        button.config(relief="sunken", bg="#c0c0c0")
+        button.update_idletasks()
+
         if self.on_cell_click:
             self.on_cell_click(row, col)
 
