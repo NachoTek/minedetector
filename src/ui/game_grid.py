@@ -136,18 +136,13 @@ class GameGrid:
                     font=("Arial", 10, "bold")
                 )
 
-                # Remove Tkinter's Button class binding to prevent native button behavior
-                # This eliminates the "pop back up" animation and hover state issues
-                # Only our custom bindings will be processed
-                button.bindtags((button.winfo_name(), ".", "all"))
-
                 # Bind mouse events
-                # Use Button-1 for immediate response on left-click
+                # Use Button-1 for immediate response on left-click (fires on mouse down)
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
                 )
-                # Right-click for flagging
+                # Right-click for flagging (fires on mouse down)
                 button.bind(
                     "<Button-3>",
                     lambda event, r=row, c=col: self._handle_right_click(r, c)
