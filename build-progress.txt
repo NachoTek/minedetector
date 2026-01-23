@@ -1,4 +1,4 @@
-# Build Progress - Minesweeper Portable Executable
+# Build Progress - Minedetector Portable Executable
 
 **Last Updated**: 2026-01-22T14:15:00Z
 **Status**: PREPARATION COMPLETE - AWAITING UNRESTRICTED ENVIRONMENT FOR BUILD
@@ -45,7 +45,7 @@ The actual executable cannot be created in this worktree due to security restric
 ## What's Pending (Requires Unrestricted Environment) ⚠️
 
 ### Build Execution
-- [ ] Build dist/Minesweeper.exe using PyInstaller
+- [ ] Build dist/Minedetector.exe using PyInstaller
 - [ ] Verify executable size > 5MB
 - [ ] Verify executable launches without console window
 
@@ -96,16 +96,16 @@ build-prod.bat          # Windows CMD
 ./build-prod.sh         # Git Bash/Unix
 
 # Option B: Run PyInstaller directly
-pyinstaller --onefile --windowed --name=Minesweeper --clean main.py
+pyinstaller --onefile --windowed --name=Minedetector --clean main.py
 ```
 
 ### 3. Verify Build
 ```bash
 # Windows
-dir dist\Minesweeper.exe
+dir dist\Minedetector.exe
 
 # Unix/Git Bash
-ls -lh dist/Minesweeper.exe
+ls -lh dist/Minedetector.exe
 
 # Expected: File exists and size > 5MB (typically 5-15MB)
 ```
@@ -206,3 +206,30 @@ These files are present and correctly configured:
 **Last Agent**: QA Fix Agent (Session 1)
 **Assessment**: Implementation Complete, Execution Blocked by Environment
 **Recommendation**: Execute build in unrestricted environment
+
+---
+
+## Task 006: Rename All Instances of "Minedetector" to "Minedetector"
+
+**Last Updated**: 2026-01-22T19:30:00Z
+
+### Completed Subtasks
+
+#### Subtask 5-1: README.md Replacement ✓
+- [x] Replaced all 19 instances of 'Minedetector' with 'Minedetector' in README.md
+- [x] Updated title, description, code blocks, build commands, file paths, and all references
+- [x] Verification: `grep -ic 'minedetector' README.md` returns 0
+- [x] Committed: auto-claude: subtask-5-1 - Replace 'minedetector' in README.md
+
+#### Subtask 4-2: Unix Build Scripts Replacement ✓
+- [x] Replaced all instances of 'Minedetector' with 'Minedetector' in Unix build scripts
+- [x] build-dev.sh: 7 replacements (comments, echo statements, PyInstaller --name parameter, file paths)
+- [x] build-prod.sh: 7 replacements (comments, echo statements, PyInstaller --name parameter, file paths)
+- [x] Verification: `grep -ric 'minedetector' . --include='*.sh'` returns 0
+- [x] Committed: auto-claude: subtask-4-2 - Replace 'minedetector' in Unix build scripts (*.sh)
+
+### Remaining Work
+- [ ] Subtask 5-2: Replace 'minedetector' in verification and testing documentation
+- [ ] Subtask 5-3: Replace 'minedetector' in subtask summary and session documentation
+- [ ] Phase 6: Configuration files replacement (.auto-claude-status)
+- [ ] Phase 7: Final verification

@@ -1,7 +1,7 @@
 """
 Game State Enumeration
 
-Defines the three possible states of a Minesweeper game:
+Defines the three possible states of a Minedetector game:
 - PLAYING: Game is in progress, timer running, user can interact
 - WON: All non-mine cells revealed, game won, timer stopped
 - LOST: Mine clicked, game lost, timer stopped
@@ -11,7 +11,7 @@ from enum import Enum
 
 
 class GameState(Enum):
-    """Enumeration representing the current state of a Minesweeper game."""
+    """Enumeration representing the current state of a Minedetector game."""
 
     PLAYING = "playing"
     """Game is in progress and accepting user input."""

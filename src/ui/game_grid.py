@@ -1,7 +1,7 @@
 """
 Game Grid Module
 
-Creates and manages the grid of clickable cell buttons for the Minesweeper game.
+Creates and manages the grid of clickable cell buttons for the Mine Detector game.
 Handles mouse interactions and updates cell display based on game state.
 """
 
@@ -12,7 +12,7 @@ from src.game.board import Board
 
 class GameGrid:
     """
-    Manages the visual grid of cell buttons for the Minesweeper game.
+    Manages the visual grid of cell buttons for the Mine Detector game.
 
     This class creates a 2D grid of Tkinter buttons representing each cell
     in the game board. It handles left-click (reveal) and right-click (flag)
@@ -20,7 +20,7 @@ class GameGrid:
     state.
 
     The grid uses Tkinter's grid layout manager for perfect alignment of cells.
-    Each cell button is sized to be square with the standard Windows Minesweeper
+    Each cell button is sized to be square with the standard Windows Mine Detector
     appearance (raised border for unrevealed, sunken for revealed).
 
     Attributes:
@@ -36,7 +36,7 @@ class GameGrid:
         >>> grid.update_all_cells()  # Refresh display after board state changes
     """
 
-    # Windows Minesweeper number colors (1-8)
+    # Windows Mine Detector number colors (1-8)
     NUMBER_COLORS = {
         1: "blue",
         2: "green",
@@ -47,7 +47,7 @@ class GameGrid:
         7: "black",
         8: "gray"
     }
-    """Colors for numbers 1-8 matching the classic Windows Minesweeper appearance."""
+    """Colors for numbers 1-8 matching the classic Windows Mine Detector appearance."""
 
     def __init__(
         self,

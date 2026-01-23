@@ -1,7 +1,7 @@
 """
 Game Timer Module
 
-Creates and manages the game timer for the Minesweeper game.
+Creates and manages the game timer for the Mine Detector game.
 Counts up from 0 starting on the first cell reveal, stops on game end.
 """
 
@@ -11,11 +11,11 @@ from typing import Optional
 
 class GameTimer:
     """
-    Manages the game timer display for the Minesweeper game.
+    Manages the game timer display for the Mine Detector game.
 
     This timer counts up from 0 seconds, starting when the player makes
     their first cell reveal, and stopping when the game is won or lost.
-    The timer follows the classic Windows Minesweeper appearance with
+    The timer follows the classic Windows Mine Detector appearance with
     LCD-style digits matching the mine counter.
 
     The timer shows:
@@ -35,7 +35,7 @@ class GameTimer:
         >>> timer.reset()  # Resets to 0
     """
 
-    # Maximum display value (timer shows max 999 seconds like Windows Minesweeper)
+    # Maximum display value (timer shows max 999 seconds like Windows Mine Detector)
     MAX_DISPLAY = 999
     """Maximum value that can be displayed on the timer (16.65 minutes)."""
 
@@ -91,7 +91,7 @@ class GameTimer:
         Format the elapsed time for display, clamping to maximum value.
 
         The timer can only display values between 0 and 999 seconds.
-        Values above 999 are clamped to 999 (the Windows Minesweeper limit).
+        Values above 999 are clamped to 999 (the Windows Mine Detector limit).
 
         Args:
             seconds: The raw elapsed time in seconds to format.

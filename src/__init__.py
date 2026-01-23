@@ -1,7 +1,7 @@
 """
-Minesweeper Game Package
+Minedetector Game Package
 
-A complete Minesweeper clone that replicates the original Windows Minesweeper
+A complete Minedetector clone that replicates the original Windows Minedetector
 feature set using Python and Tkinter.
 """
 

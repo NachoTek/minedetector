@@ -1,4 +1,4 @@
-# Testing Procedure for Minesweeper Development Build Executable
+# Testing Procedure for Mine Detector Development Build Executable
 
 ## Current Status
 
@@ -48,7 +48,7 @@ This will create: `dist/minedetector/minedetector.exe`
 - ✅ Application window opens within 2-3 seconds
 - ✅ No console window appears (black command prompt window)
 - ✅ Only the game window is visible
-- ✅ Window title displays "Minesweeper"
+- ✅ Window title displays "Mine Detector"
 - ✅ No error messages or crash dialogs
 
 **Failure Indicators**:
@@ -327,7 +327,7 @@ Click reset → Timer resets to 000
 ```powershell
 # In PowerShell, check for console processes
 Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
-# Should show: Minesweeper (not python or console)
+# Should show: Mine Detector (not python or console)
 ```
 
 ---
@@ -392,7 +392,7 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 
 2. **Run from command line to see errors**:
    ```cmd
-   cd dist\Minesweeper
+   cd dist\minedetector
    minedetector.exe
    ```
 
@@ -429,7 +429,7 @@ Get-Process | Where-Object {$_.ProcessName -like "*mine*"}
 After testing, complete this report:
 
 ```
-Minesweeper Development Build Test Report
+Mine Detector Development Build Test Report
 ===========================================
 
 Build Information:
