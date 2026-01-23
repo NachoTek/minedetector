@@ -137,6 +137,7 @@ class GameGrid:
 
                 # Bind mouse events
                 # Use Button-1 for immediate response on left-click
+                # update_idletasks() in update_all_cells() ensures immediate visual update
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
@@ -257,6 +258,8 @@ class GameGrid:
         for row in range(self.board.rows):
             for col in range(self.board.cols):
                 self.update_cell(row, col)
+        # Force immediate UI update to ensure visual changes take effect
+        self.frame.update_idletasks()
 
     def resize(self, new_board: Board) -> None:
         """
