@@ -1,25 +1,25 @@
 {
   "active": true,
-  "spec": "008-the-mine-counter-the-timer-and-the-face-icon-are-n",
+  "spec": "009-when-you-click-on-a-play-field-tile-everything-wor",
   "state": "building",
   "subtasks": {
-    "completed": 0,
-    "total": 1,
+    "completed": 1,
+    "total": 2,
     "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "Fix Top Bar Component Alignment",
+    "current": "Fix Mouse Event Bindings",
     "id": 1,
-    "total": 1
+    "total": 2
   },
   "workers": {
     "active": 0,
     "max": 1
   },
   "session": {
-    "number": 1,
-    "started_at": "2026-01-23T08:45:44.781200"
+    "number": 2,
+    "started_at": "2026-01-23T09:50:06.907455"
   },
-  "last_update": "2026-01-23T08:45:44.856337"
+  "last_update": "2026-01-23T09:52:19.711611"
 }
