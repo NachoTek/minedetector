@@ -81,6 +81,9 @@ class MainWindow:
         # Set window title
         self.root.title("Mine Detector")
 
+        # Disable window resizing
+        self.root.resizable(False, False)
+
         # Initialize current difficulty
         self.current_difficulty = "Beginner"
         """The currently selected difficulty level."""
