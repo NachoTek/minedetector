@@ -1,7 +1,2 @@
 # Auto Claude data directory
 .auto-claude/
-
-# PyInstaller build artifacts
-build/
-dist/
-*.spec

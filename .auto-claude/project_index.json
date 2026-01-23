@@ -1,7 +1,33 @@
 {
   "project_root": "C:\\Projects\\minedetector",
   "project_type": "single",
-  "services": {},
+  "services": {
+    "main": {
+      "name": "main",
+      "path": "C:\\Projects\\minedetector",
+      "language": "Python",
+      "framework": null,
+      "type": "backend",
+      "package_manager": "pip",
+      "key_directories": {
+        "src": {
+          "path": "src",
+          "purpose": "Source code"
+        },
+        "tests": {
+          "path": "tests",
+          "purpose": "Tests"
+        }
+      },
+      "entry_point": "main.py",
+      "dependencies": [
+        "pytest",
+        "pytest-cov",
+        "pytest"
+      ],
+      "test_directory": "tests"
+    }
+  },
   "infrastructure": {},
   "conventions": {}
 }
