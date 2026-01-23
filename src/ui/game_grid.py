@@ -55,7 +55,8 @@ class GameGrid:
         board: Board,
         cell_size: int = 30,
         on_cell_click: Optional[Callable[[int, int], None]] = None,
-        on_cell_right_click: Optional[Callable[[int, int], None]] = None
+        on_cell_right_click: Optional[Callable[[int, int], None]] = None,
+        is_input_allowed: Optional[Callable[[], bool]] = None
     ):
         """
         Initialize the game grid with clickable cell buttons.
@@ -70,6 +71,7 @@ class GameGrid:
             cell_size: Size of each cell button in pixels (default: 30).
             on_cell_click: Optional callback for left-click, receives (row, col).
             on_cell_right_click: Optional callback for right-click, receives (row, col).
+            is_input_allowed: Optional callback that returns True if input is allowed.
 
         Raises:
             ValueError: If board is None or cell_size is not positive.
@@ -93,6 +95,9 @@ class GameGrid:
 
         self.on_cell_right_click = on_cell_right_click
         """Optional callback function for right-click events on cells."""
+
+        self.is_input_allowed = is_input_allowed
+        """Optional callback that returns True if input is currently allowed."""
 
         # Create frame to hold the grid
         self.frame = tk.Frame(parent, relief="sunken", bd=2)
@@ -166,10 +171,11 @@ class GameGrid:
         """
         Handle left-click event on a cell button.
 
-        This method is called when a cell button is left-clicked. It immediately
-        sets the button to sunken state for instant visual feedback, then invokes
-        the on_cell_click callback. The sunken state is maintained by the
-        ButtonRelease-1 handler which overrides the native button behavior.
+        This method is called when a cell button is left-clicked. It checks if
+        input is allowed (game is still active), then sets the button to sunken
+        state for instant visual feedback and invokes the on_cell_click callback.
+        The sunken state is maintained by the ButtonRelease-1 handler which
+        overrides the native button behavior.
 
         This approach provides immediate visual response while working with
         Tkinter's event system instead of blocking it.
@@ -178,6 +184,10 @@ class GameGrid:
             row: Row index of the clicked cell (0-based).
             col: Column index of the clicked cell (0-based).
         """
+        # Check if input is allowed (game is still active)
+        if self.is_input_allowed and not self.is_input_allowed():
+            return
+
         # Immediately set button to sunken state for instant visual feedback
         button = self.buttons[row][col]
         button.config(relief="sunken", bg="#c0c0c0")
@@ -190,14 +200,19 @@ class GameGrid:
         """
         Handle right-click event on a cell button.
 
-        This method is called when a cell button is right-clicked. It invokes
-        the on_cell_right_click callback if one was provided during initialization.
+        This method is called when a cell button is right-clicked. It checks if
+        input is allowed (game is still active), then invokes the
+        on_cell_right_click callback if one was provided during initialization.
         Right-click is used to place/remove flags on cells.
 
         Args:
             row: Row index of the clicked cell (0-based).
             col: Column index of the clicked cell (0-based).
         """
+        # Check if input is allowed (game is still active)
+        if self.is_input_allowed and not self.is_input_allowed():
+            return
+
         if self.on_cell_right_click:
             self.on_cell_right_click(row, col)
 
@@ -242,7 +257,7 @@ class GameGrid:
 
         # Only override if the cell is revealed (should be sunken)
         # Don't interfere with unrevealed cells (should stay raised)
-        if cell.is_revealed:
+        if cell.revealed:
             button = self.buttons[row][col]
             button.config(relief="sunken", bg="#c0c0c0")
 
