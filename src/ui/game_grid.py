@@ -115,6 +115,7 @@ class GameGrid:
         - Raised relief for unrevealed appearance
         - Event bindings for left-click and right-click
         - Closure to capture row/col coordinates for callbacks
+        - Custom bindtags to disable native Tkinter button behavior
 
         The buttons are stored in a 2D list for efficient access during updates.
         """
@@ -135,21 +136,20 @@ class GameGrid:
                     font=("Arial", 10, "bold")
                 )
 
+                # Remove Tkinter's Button class binding to prevent native button behavior
+                # This eliminates the "pop back up" animation and hover state issues
+                # Only our custom bindings will be processed
+                button.bindtags((button.winfo_name(), ".", "all"))
+
                 # Bind mouse events
                 # Use Button-1 for immediate response on left-click
-                # Bind ButtonRelease-1 to prevent native button "pop back up" behavior
-                # update_idletasks() in update_all_cells() ensures immediate visual update
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
                 )
-                # Prevent native ButtonRelease-1 from resetting button state
+                # Right-click for flagging
                 button.bind(
-                    "<ButtonRelease-1>",
-                    lambda event: "break"
-                )
-                button.bind(
-                    "<ButtonRelease-3>",
+                    "<Button-3>",
                     lambda event, r=row, c=col: self._handle_right_click(r, c)
                 )
 
@@ -163,19 +163,14 @@ class GameGrid:
         """
         Handle left-click event on a cell button.
 
-        This method is called when a cell button is left-clicked. It immediately
-        sets the button to sunken state to prevent the "pop back up" animation,
-        then invokes the on_cell_click callback if one was provided during initialization.
+        This method is called when a cell button is left-clicked. It invokes
+        the on_cell_click callback if one was provided during initialization.
+        The button's visual state is updated by update_cell() after game logic runs.
 
         Args:
             row: Row index of the clicked cell (0-based).
             col: Column index of the clicked cell (0-based).
         """
-        # Immediately set button to sunken state to prevent pop-back-up animation
-        button = self.buttons[row][col]
-        button.config(relief="sunken", bg="#c0c0c0")
-        button.update_idletasks()
-
         if self.on_cell_click:
             self.on_cell_click(row, col)
 
