@@ -214,7 +214,8 @@ class MainWindow:
             self.root,
             self.board,
             on_cell_click=self._on_cell_click,
-            on_cell_right_click=self._on_cell_right_click
+            on_cell_right_click=self._on_cell_right_click,
+            is_input_allowed=self._is_input_allowed
         )
 
         # Pack the grid into the window
