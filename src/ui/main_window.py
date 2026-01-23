@@ -189,18 +189,18 @@ class MainWindow:
             self.board,
             total_mines=self.board.mine_count
         )
-        self.mine_counter.pack(side="left")
+        self.mine_counter.pack(side="left", anchor='center')
 
         # Create reset button (centered)
         self.reset_button = ResetButton(
             top_frame,
             on_reset=self._reset_game
         )
-        self.reset_button.pack()
+        self.reset_button.pack(side='left', expand=True, anchor='center')
 
         # Create timer (right side)
         self.timer = GameTimer(top_frame)
-        self.timer.pack(side="right")
+        self.timer.pack(side="right", anchor='center')
 
     def _create_game_grid(self) -> None:
         """
