@@ -326,6 +326,22 @@ class GameGrid:
                 bg="lightgray"
             )
 
+    def set_enabled(self, enabled: bool) -> None:
+        """
+        Enable or disable all cell buttons.
+
+        When disabled, buttons cannot be clicked and do not show visual
+        feedback when pressed. This is used to prevent interaction when
+        the game is over.
+
+        Args:
+            enabled: True to enable buttons, False to disable them.
+        """
+        state = "normal" if enabled else "disabled"
+        for row in range(self.board.rows):
+            for col in range(self.board.cols):
+                self.buttons[row][col].config(state=state)
+
     def update_all_cells(self) -> None:
         """
         Update the visual appearance of all cells in the grid.
