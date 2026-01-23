@@ -361,6 +361,7 @@ class MainWindow:
         - Stops the timer
         - Updates the reset button face icon (cool for win, dead for loss)
         - Reveals all mine positions on loss
+        - Disables all cell buttons to prevent further interaction
 
         Args:
             won: True if the game was won, False if lost.
@@ -376,6 +377,10 @@ class MainWindow:
             self._set_face_dead()
             # Reveal all mines on loss
             self._reveal_all_mines()
+
+        # Disable all cell buttons to prevent further interaction
+        if self.game_grid:
+            self.game_grid.set_enabled(False)
 
     def _reveal_all_mines(self) -> None:
         """
@@ -450,6 +455,8 @@ class MainWindow:
         # Resize the game grid to match new board
         if self.game_grid:
             self.game_grid.resize(self.board)
+            # Re-enable cell buttons for new game
+            self.game_grid.set_enabled(True)
 
         # Reset mine counter to total mines
         if self.mine_counter:
