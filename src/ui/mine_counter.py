@@ -1,7 +1,7 @@
 """
 Mine Counter Module
 
-Creates and manages the mine counter display for the Minesweeper game.
+Creates and manages the mine counter display for the Mine Detector game.
 Shows the number of remaining mines (total mines minus placed flags).
 """
 
@@ -12,11 +12,11 @@ from src.game.board import Board
 
 class MineCounter:
     """
-    Manages the mine counter display for the Minesweeper game.
+    Manages the mine counter display for the Mine Detector game.
 
     This counter displays the number of remaining mines to be found,
     calculated as: total_mines - flags_placed. The counter follows
-    the classic Windows Minesweeper appearance with LCD-style digits
+    the classic Windows Mine Detector appearance with LCD-style digits
     that change color based on the value.
 
     The counter shows:

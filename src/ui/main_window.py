@@ -1,7 +1,7 @@
 """
 Main Window Module
 
-Creates and manages the primary Minesweeper game window using Tkinter.
+Creates and manages the primary Mine Detector game window using Tkinter.
 Provides difficulty selection via Game menu and sets up the main application structure.
 """
 
@@ -17,13 +17,13 @@ from src.ui.reset_button import ResetButton
 
 class MainWindow:
     """
-    The main application window for the Minesweeper game.
+    The main application window for the Mine Detector game.
 
     This class creates the primary Tkinter window, sets up the Game menu
     with difficulty selection options (Beginner, Intermediate, Expert), and
     manages the overall application structure.
 
-    The window follows the classic Windows Minesweeper layout with a menu bar
+    The window follows the classic Windows Mine Detector layout with a menu bar
     at the top for difficulty selection.
 
     Attributes:
@@ -47,7 +47,7 @@ class MainWindow:
     """
 
     # Difficulty configurations as class constants
-    # Following Windows Minesweeper standard difficulties
+    # Following Windows Mine Detector standard difficulties
     DIFFICULTIES: Dict[str, Dict[str, int]] = {
         "Beginner": {
             "rows": 9,
@@ -79,7 +79,7 @@ class MainWindow:
         """The root Tkinter window object."""
 
         # Set window title
-        self.root.title("Minesweeper")
+        self.root.title("Mine Detector")
 
         # Initialize current difficulty
         self.current_difficulty = "Beginner"
