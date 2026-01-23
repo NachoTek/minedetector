@@ -138,16 +138,17 @@ class GameGrid:
 
                 # Bind mouse events
                 # Use Button-1 for immediate response on left-click (fires on mouse down)
-                # Bind ButtonRelease-1 to prevent native button "pop back up" behavior
-                # update_idletasks() calls ensure immediate visual update
+                # ButtonRelease-1 handler uses after() to override native behavior
+                # This approach works WITH Tkinter's event system, not against it
+                # No "break" needed - event propagation completes normally
                 button.bind(
                     "<Button-1>",
                     lambda event, r=row, c=col: self._handle_left_click(r, c)
                 )
-                # Prevent native ButtonRelease-1 from resetting button state
+                # Override native ButtonRelease-1 behavior using delayed execution
                 button.bind(
                     "<ButtonRelease-1>",
-                    lambda event: "break"
+                    lambda event, r=row, c=col: self._ensure_sunken_state(r, c)
                 )
                 # Right-click for flagging (fires on mouse down)
                 button.bind(
@@ -166,14 +167,18 @@ class GameGrid:
         Handle left-click event on a cell button.
 
         This method is called when a cell button is left-clicked. It immediately
-        sets the button to sunken state to prevent the "pop back up" animation,
-        then invokes the on_cell_click callback if one was provided during initialization.
+        sets the button to sunken state for instant visual feedback, then invokes
+        the on_cell_click callback. The sunken state is maintained by the
+        ButtonRelease-1 handler which overrides the native button behavior.
+
+        This approach provides immediate visual response while working with
+        Tkinter's event system instead of blocking it.
 
         Args:
             row: Row index of the clicked cell (0-based).
             col: Column index of the clicked cell (0-based).
         """
-        # Immediately set button to sunken state to prevent pop-back-up animation
+        # Immediately set button to sunken state for instant visual feedback
         button = self.buttons[row][col]
         button.config(relief="sunken", bg="#c0c0c0")
         button.update_idletasks()
@@ -195,6 +200,51 @@ class GameGrid:
         """
         if self.on_cell_right_click:
             self.on_cell_right_click(row, col)
+
+    def _ensure_sunken_state(self, row: int, col: int) -> None:
+        """
+        Ensure the button stays in sunken state after native ButtonRelease handler.
+
+        This method is called after Tkinter's native ButtonRelease-1 handler runs.
+        The native handler resets the button to raised state, causing the "pop back up"
+        animation. This method overrides that behavior by re-applying the sunken state
+        for revealed cells, without blocking event propagation.
+
+        This approach works with Tkinter's event system instead of against it:
+        - Native handler runs (button resets to raised)
+        - Our delayed handler runs (button set back to sunken if revealed)
+        - No "break" needed, event chain completes normally
+
+        The use of after() ensures our handler runs AFTER the native Button class handler,
+        allowing us to override the visual state without interfering with event propagation.
+
+        Args:
+            row: Row index of the cell (0-based).
+            col: Column index of the cell (0-based).
+        """
+        # Schedule state correction after native handler completes
+        # Small delay ensures native ButtonRelease handler runs first
+        self.frame.after(1, lambda: self._apply_sunken_if_revealed(row, col))
+
+    def _apply_sunken_if_revealed(self, row: int, col: int) -> None:
+        """
+        Apply sunken state to button if the cell is revealed.
+
+        This helper method is called after a delay by _ensure_sunken_state.
+        It checks if the cell should be sunken (revealed) and applies the
+        appropriate visual state.
+
+        Args:
+            row: Row index of the cell (0-based).
+            col: Column index of the cell (0-based).
+        """
+        cell = self.board.get_cell(row, col)
+
+        # Only override if the cell is revealed (should be sunken)
+        # Don't interfere with unrevealed cells (should stay raised)
+        if cell.is_revealed:
+            button = self.buttons[row][col]
+            button.config(relief="sunken", bg="#c0c0c0")
 
     def update_cell(self, row: int, col: int) -> None:
         """
