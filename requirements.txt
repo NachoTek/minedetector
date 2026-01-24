@@ -4,3 +4,6 @@ pytest-cov>=4.1.0
 
 # Code Quality
 pytest>=7.4.0
+
+# Build
+pyinstaller>=6.0.0
