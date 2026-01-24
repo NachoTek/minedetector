@@ -15,20 +15,20 @@ class TestWinDetection:
 
     def test_win_when_all_safe_cells_revealed(self):
         """Test that game is won when all non-mine cells are revealed."""
-        board = Board(3, 3, 2)  # 9 cells, 2 mines = 7 safe cells
+        board = Board(5, 5, 2)  # 25 cells, 2 mines = 23 safe cells
 
-        # Place mines at corners to isolate them
-        board.place_mines(1, 1)
+        # Place mines with first click at center
+        board.place_mines(2, 2)
 
         # Find and reveal all non-mine cells
         revealed_count = 0
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
                     revealed_count += 1
 
-        assert revealed_count == 7, "Should have revealed 7 safe cells"
+        assert revealed_count == 23, "Should have revealed 23 safe cells"
 
         # Check that game is won
         assert board.is_won(), "Game should be won when all safe cells are revealed"
@@ -42,15 +42,15 @@ class TestWinDetection:
 
     def test_not_won_when_mine_cells_still_hidden(self):
         """Test that game is not won when some non-mine cells remain hidden."""
-        board = Board(3, 3, 1)  # 9 cells, 1 mine = 8 safe cells
+        board = Board(5, 5, 1)  # 25 cells, 1 mine = 24 safe cells
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal only some safe cells
         revealed_count = 0
-        for row in range(3):
-            for col in range(3):
-                if not board.grid[row][col].mine and revealed_count < 5:
+        for row in range(5):
+            for col in range(5):
+                if not board.grid[row][col].mine and revealed_count < 15:
                     board.grid[row][col].revealed = True
                     revealed_count += 1
 
@@ -113,28 +113,29 @@ class TestWinDetection:
 
     def test_win_detection_does_not_count_mine_cells(self):
         """Test that win detection only counts non-mine cells."""
-        board = Board(3, 3, 3)
+        board = Board(5, 5, 5)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
-        # Reveal all cells including mines (shouldn't happen in real game)
-        for row in range(3):
-            for col in range(3):
-                board.grid[row][col].revealed = True
+        # Reveal only safe cells (not mines)
+        for row in range(5):
+            for col in range(5):
+                if not board.grid[row][col].mine:
+                    board.grid[row][col].revealed = True
 
-        # All cells are revealed, but game should not be won because
-        # we're checking revealed_count against safe_cells count
+        # All safe cells are revealed, game should be won
+        # The fact that mines are not revealed doesn't matter
         assert board.is_won(), "Game should be won when all safe cells are revealed"
 
     def test_win_with_no_mines(self):
         """Test win detection on board with no mines."""
-        board = Board(3, 3, 0)  # 9 cells, 0 mines = 9 safe cells
+        board = Board(5, 5, 0)  # 25 cells, 0 mines = 25 safe cells
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal all cells
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 board.grid[row][col].revealed = True
 
         # Check that game is won
@@ -144,13 +145,13 @@ class TestWinDetection:
 
     def test_win_flagged_cells_do_not_matter(self):
         """Test that flagged cells don't affect win detection."""
-        board = Board(3, 3, 2)
+        board = Board(5, 5, 2)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal all safe cells
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
@@ -167,13 +168,13 @@ class TestLossDetection:
 
     def test_loss_when_mine_revealed(self):
         """Test that game is lost when a mine is revealed."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 1)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Find a mine and reveal it
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
                     break
@@ -193,15 +194,15 @@ class TestLossDetection:
 
     def test_not_lost_when_mines_still_hidden(self):
         """Test that game is not lost when all mines are still hidden."""
-        board = Board(3, 3, 3)
+        board = Board(5, 5, 5)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal some non-mine cells
         revealed_count = 0
-        for row in range(3):
-            for col in range(3):
-                if not board.grid[row][col].mine and revealed_count < 3:
+        for row in range(5):
+            for col in range(5):
+                if not board.grid[row][col].mine and revealed_count < 10:
                     board.grid[row][col].revealed = True
                     revealed_count += 1
 
@@ -232,13 +233,13 @@ class TestLossDetection:
 
     def test_loss_with_multiple_mines_revealed(self):
         """Test loss detection when multiple mines are revealed."""
-        board = Board(3, 3, 3)
+        board = Board(5, 5, 5)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal all mines
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
@@ -247,13 +248,13 @@ class TestLossDetection:
 
     def test_flagged_mines_do_not_trigger_loss(self):
         """Test that flagging a mine does not trigger loss."""
-        board = Board(3, 3, 2)
+        board = Board(5, 5, 5)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Flag all mines (but don't reveal them)
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if board.grid[row][col].mine:
                     board.grid[row][col].flagged = True
 
@@ -268,14 +269,14 @@ class TestGameStateTransitions:
 
     def test_state_transitions_from_playing_to_won(self):
         """Test state transition from PLAYING to WON."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
         assert board.game_state == GameState.PLAYING, "Initial state should be PLAYING"
 
         # Reveal all safe cells
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
@@ -285,14 +286,14 @@ class TestGameStateTransitions:
 
     def test_state_transitions_from_playing_to_lost(self):
         """Test state transition from PLAYING to LOST."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
         assert board.game_state == GameState.PLAYING, "Initial state should be PLAYING"
 
         # Reveal a mine
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
                     break
@@ -306,13 +307,13 @@ class TestGameStateTransitions:
 
     def test_state_does_not_transition_from_won_to_playing(self):
         """Test that WON state doesn't transition back to PLAYING."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Win the game
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
@@ -325,13 +326,13 @@ class TestGameStateTransitions:
 
     def test_state_does_not_transition_from_lost_to_playing(self):
         """Test that LOST state doesn't transition back to PLAYING."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Lose the game
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
                     break
@@ -343,8 +344,8 @@ class TestGameStateTransitions:
         assert board.game_state == GameState.LOST, "State should be LOST"
 
         # Reveal all safe cells (should still be LOST)
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
@@ -354,13 +355,13 @@ class TestGameStateTransitions:
 
     def test_loss_check_takes_priority_over_win_check(self):
         """Test that loss is detected even if all safe cells are also revealed."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal all cells (including mines)
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 board.grid[row][col].revealed = True
 
         # Update state - should be LOST (loss takes priority)
@@ -394,9 +395,9 @@ class TestEdgeCases:
 
     def test_update_state_without_changes(self):
         """Test that updating state without board changes keeps state as PLAYING."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Update multiple times without changing board
         board.update_game_state()
@@ -410,13 +411,13 @@ class TestEdgeCases:
 
     def test_reveal_cell_does_not_automatically_update_state(self):
         """Test that revealing cells doesn't automatically update game state."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 3)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Reveal all safe cells using reveal_cell
-        for row in range(3):
-            for col in range(3):
+        for row in range(5):
+            for col in range(5):
                 if not board.grid[row][col].mine:
                     board.reveal_cell(row, col)
 

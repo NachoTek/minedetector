@@ -1,9 +1,16 @@
+# Core Dependencies
+PySide6>=6.0.0
+
 # Testing Framework
-pytest>=7.4.0
-pytest-cov>=4.1.0
+pytest==7.4.3
+pytest-cov==4.1.0
+pytest-qt==4.3.1
 
 # Code Quality
-pytest>=7.4.0
+black==24.1.1
+flake8==7.0.0
+mypy==1.8.0
+isort==5.13.2
 
 # Build
-pyinstaller>=6.0.0
+pyinstaller==6.3.0

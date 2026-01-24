@@ -99,17 +99,21 @@ class TestFloodFill:
 
     def test_reveal_numbered_cell_no_flood_fill(self):
         """Test that revealing a numbered cell doesn't trigger flood fill."""
-        board = Board(3, 3, 1)  # 3x3 board with 1 mine
+        board = Board(5, 5, 1)  # 5x5 board with 1 mine
 
-        # Place mine at corner (0, 0)
-        board.place_mines(2, 2)  # First click at opposite corner
+        # Manually place a mine at (0, 0) to ensure deterministic behavior
+        board.grid[0][0].mine = True
+        # Recalculate adjacent counts
+        from src.game.adjacent_counter import calculate_adjacent_mines
+        calculate_adjacent_mines(board.grid, 5, 5)
 
-        # Cell (0, 1) should be adjacent to the mine
+        # Cell (0, 1) should be adjacent to the mine at (0, 0)
         # Reveal it (should have adjacent_mines = 1)
         board.reveal_cell(0, 1)
 
         # Only that cell should be revealed, not its neighbors
         assert board.grid[0][1].revealed, "Cell (0, 1) should be revealed"
+        assert board.grid[0][1].adjacent_mines == 1, "Cell (0, 1) should have 1 adjacent mine"
 
         # Check that neighbors are NOT revealed (no flood fill for numbered cells)
         # Cell (0, 2) should NOT be revealed
