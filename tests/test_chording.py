@@ -185,24 +185,43 @@ class TestChording:
 
     def test_chord_with_multiple_flags(self):
         """Test chording with multiple flags (cell number > 1)."""
-        board = Board(5, 5, 3)
+        board = Board(5, 5, 4)
 
         board.place_mines(2, 2)
 
-        # Find a cell with 3 adjacent mines
+        # Find a cell with 2 or more adjacent mines
+        test_cell = None
         for row in range(5):
             for col in range(5):
-                if board.grid[row][col].adjacent_mines == 3:
+                if board.grid[row][col].adjacent_mines >= 2:
                     test_cell = (row, col)
                     break
-            else:
-                continue
-            break
+            if test_cell:
+                break
+
+        # If we couldn't find one, manually set up a test scenario
+        if not test_cell:
+            board = Board(5, 5, 3)
+            # Manually place mines around a specific cell
+            board.grid[0][0].mine = True
+            board.grid[0][1].mine = True
+            board.grid[1][0].mine = True
+            # Recalculate adjacent counts
+            from src.game.adjacent_counter import calculate_adjacent_mines
+            calculate_adjacent_mines(board.grid, 5, 5)
+            test_cell = (1, 1)
+            # Flag the mines
+            board.grid[0][0].flagged = True
+            board.grid[0][1].flagged = True
+            board.grid[1][0].flagged = True
 
         row, col = test_cell
         board.reveal_cell(row, col)
 
-        # Flag 3 neighbors that contain mines
+        # Count how many mines are adjacent
+        adjacent_mines = board.grid[row][col].adjacent_mines
+
+        # Flag neighbors that contain mines
         flag_count = 0
         for dr in [-1, 0, 1]:
             for dc in [-1, 0, 1]:
@@ -210,11 +229,11 @@ class TestChording:
                     continue
                 nr, nc = row + dr, col + dc
                 if 0 <= nr < 5 and 0 <= nc < 5:
-                    if board.grid[nr][nc].mine and flag_count < 3:
+                    if board.grid[nr][nc].mine and flag_count < adjacent_mines:
                         board.grid[nr][nc].flagged = True
                         flag_count += 1
 
-        assert flag_count == 3, "Should have flagged 3 cells"
+        assert flag_count == adjacent_mines, f"Should have flagged {adjacent_mines} cells"
 
         # Chord the cell
         board.chord_cell(row, col)
@@ -281,9 +300,9 @@ class TestChording:
 
     def test_invalid_coordinates_raise_error(self):
         """Test that chording with invalid coordinates raises IndexError."""
-        board = Board(3, 3, 1)
+        board = Board(5, 5, 1)
 
-        board.place_mines(1, 1)
+        board.place_mines(2, 2)
 
         # Test out of bounds coordinates
         with pytest.raises(IndexError, match="out of bounds"):
@@ -293,10 +312,10 @@ class TestChording:
             board.chord_cell(0, -1)
 
         with pytest.raises(IndexError, match="out of bounds"):
-            board.chord_cell(3, 0)
+            board.chord_cell(5, 0)
 
         with pytest.raises(IndexError, match="out of bounds"):
-            board.chord_cell(0, 3)
+            board.chord_cell(0, 5)
 
     def test_chord_does_not_modify_mines(self):
         """Test that chording does not change mine locations."""
