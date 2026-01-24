@@ -1,6 +1,6 @@
 # Minedetector
 
-A classic Minedetector game built with Python and Tkinter. This desktop application recreates the timeless puzzle game with all the familiar features you know and love.
+A classic Minesweeper game built with Python and Tkinter. This desktop application recreates the timeless puzzle game with all the familiar features you know and love.
 
 ![Minedetector](https://img.shields.io/badge/version-1.0.0-blue)
 ![Python](https://img.shields.io/badge/python-3.8+-green)
@@ -289,6 +289,6 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Acknowledgments
 
-- Original Minedetector game by Microsoft
+- Original Minesweeper game by Microsoft
 - Built with Python and Tkinter
 - Packaged with PyInstaller
