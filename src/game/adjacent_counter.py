@@ -6,6 +6,7 @@ on the game board. This information is displayed to the player as numbers 1-8.
 """
 
 from typing import List
+
 from src.models.cell import Cell
 
 
@@ -46,11 +47,7 @@ def calculate_adjacent_mines(grid: List[List[Cell]], rows: int, cols: int) -> No
 
 
 def _count_neighbor_mines(
-    grid: List[List[Cell]],
-    row: int,
-    col: int,
-    rows: int,
-    cols: int
+    grid: List[List[Cell]], row: int, col: int, rows: int, cols: int
 ) -> int:
     """
     Count the number of mines in the 8 neighboring cells.

@@ -6,8 +6,8 @@ and all 8 of its neighbors are mine-free across multiple random generations.
 """
 
 import pytest
+
 from src.game.board import Board
-from src.game.mine_placement import place_mines
 
 
 class TestFirstClickSafety:
@@ -23,8 +23,11 @@ class TestFirstClickSafety:
             board.place_mines(first_row, first_col)
 
             # Verify first-click cell is not a mine
-            assert not board.grid[first_row][first_col].mine, \
+            assert not board.grid[first_row][
+                first_col
+            ].mine, (
                 f"First-click cell ({first_row}, {first_col}) should never be a mine"
+            )
 
     def test_first_click_neighbors_never_mine_center(self):
         """Test that all neighbors of first-click cell are never mines (center)."""
@@ -39,8 +42,11 @@ class TestFirstClickSafety:
                 for dc in [-1, 0, 1]:
                     row = first_row + dr
                     col = first_col + dc
-                    assert not board.grid[row][col].mine, \
+                    assert not board.grid[row][
+                        col
+                    ].mine, (
                         f"Neighbor ({row}, {col}) of first-click should never be a mine"
+                    )
 
     def test_first_click_cell_never_mine_corner(self):
         """Test that the first-click cell is never a mine (corner of board)."""
@@ -51,11 +57,13 @@ class TestFirstClickSafety:
             board.place_mines(first_row, first_col)
 
             # Verify first-click cell is not a mine
-            assert not board.grid[first_row][first_col].mine, \
-                f"First-click cell at corner should never be a mine"
+            assert not board.grid[first_row][
+                first_col
+            ].mine, "First-click cell at corner should never be a mine"
 
     def test_first_click_neighbors_never_mine_corner(self):
-        """Test that all valid neighbors of first-click cell are never mines (corner)."""
+        """Test that all valid neighbors of first-click cell are never
+        mines (corner)."""
         for _ in range(100):
             board = Board(9, 9, 10)
             first_row, first_col = 0, 0  # Top-left corner
@@ -68,8 +76,10 @@ class TestFirstClickSafety:
                     row = first_row + dr
                     col = first_col + dc
                     if board.is_valid_coordinate(row, col):
-                        assert not board.grid[row][col].mine, \
-                            f"Neighbor ({row}, {col}) of corner first-click should never be a mine"
+                        assert not board.grid[row][
+                            col
+                        ].mine, f"Neighbor ({row}, {col}) of corner"
+                        " first-click should never be a mine"
 
     def test_first_click_cell_never_mine_edge(self):
         """Test that the first-click cell is never a mine (edge of board)."""
@@ -80,8 +90,9 @@ class TestFirstClickSafety:
             board.place_mines(first_row, first_col)
 
             # Verify first-click cell is not a mine
-            assert not board.grid[first_row][first_col].mine, \
-                f"First-click cell at edge should never be a mine"
+            assert not board.grid[first_row][
+                first_col
+            ].mine, "First-click cell at edge should never be a mine"
 
     def test_correct_mine_count_placed(self):
         """Test that exactly the specified number of mines are placed."""
@@ -92,13 +103,10 @@ class TestFirstClickSafety:
             board.place_mines(first_row, first_col)
 
             # Count total mines
-            mine_count = sum(
-                cell.mine
-                for row in board.grid
-                for cell in row
-            )
-            assert mine_count == board.mine_count, \
-                f"Expected {board.mine_count} mines, but found {mine_count}"
+            mine_count = sum(cell.mine for row in board.grid for cell in row)
+            assert (
+                mine_count == board.mine_count
+            ), f"Expected {board.mine_count} mines, but found {mine_count}"
 
     def test_intermediate_difficulty_first_click_safety(self):
         """Test first-click safety on Intermediate difficulty (16x16, 40 mines)."""
@@ -113,17 +121,17 @@ class TestFirstClickSafety:
                 for dc in [-1, 0, 1]:
                     row = first_row + dr
                     col = first_col + dc
-                    assert not board.grid[row][col].mine, \
+                    assert not board.grid[row][
+                        col
+                    ].mine, (
                         f"Intermediate: Neighbor ({row}, {col}) should never be a mine"
+                    )
 
             # Verify correct mine count
-            mine_count = sum(
-                cell.mine
-                for row in board.grid
-                for cell in row
-            )
-            assert mine_count == 40, \
-                f"Intermediate: Expected 40 mines, but found {mine_count}"
+            mine_count = sum(cell.mine for row in board.grid for cell in row)
+            assert (
+                mine_count == 40
+            ), f"Intermediate: Expected 40 mines, but found {mine_count}"
 
     def test_expert_difficulty_first_click_safety(self):
         """Test first-click safety on Expert difficulty (16x30, 99 mines)."""
@@ -138,17 +146,15 @@ class TestFirstClickSafety:
                 for dc in [-1, 0, 1]:
                     row = first_row + dr
                     col = first_col + dc
-                    assert not board.grid[row][col].mine, \
-                        f"Expert: Neighbor ({row}, {col}) should never be a mine"
+                    assert not board.grid[row][
+                        col
+                    ].mine, f"Expert: Neighbor ({row}, {col}) should never be a mine"
 
             # Verify correct mine count
-            mine_count = sum(
-                cell.mine
-                for row in board.grid
-                for cell in row
-            )
-            assert mine_count == 99, \
-                f"Expert: Expected 99 mines, but found {mine_count}"
+            mine_count = sum(cell.mine for row in board.grid for cell in row)
+            assert (
+                mine_count == 99
+            ), f"Expert: Expected 99 mines, but found {mine_count}"
 
     def test_invalid_first_click_coordinates(self):
         """Test that invalid first-click coordinates raise ValueError."""
@@ -181,30 +187,30 @@ class TestFirstClickSafety:
         board = Board(9, 9, 10)
 
         # Before placing mines, no cells should have mines
-        mine_count_before = sum(
-            cell.mine
-            for row in board.grid
-            for cell in row
-        )
-        assert mine_count_before == 0, \
-            "Board should have no mines before place_mines() is called"
+        mine_count_before = sum(cell.mine for row in board.grid for cell in row)
+        assert (
+            mine_count_before == 0
+        ), "Board should have no mines before place_mines() is called"
 
         # After placing mines, there should be mines
         board.place_mines(4, 4)
-        mine_count_after = sum(
-            cell.mine
-            for row in board.grid
-            for cell in row
-        )
-        assert mine_count_after == 10, \
-            "Board should have 10 mines after place_mines() is called"
+        mine_count_after = sum(cell.mine for row in board.grid for cell in row)
+        assert (
+            mine_count_after == 10
+        ), "Board should have 10 mines after place_mines() is called"
 
     def test_multiple_first_clicks_different_positions(self):
         """Test first-click safety works for various positions on the board."""
         test_positions = [
-            (0, 0), (0, 4), (0, 8),  # Top row: corners and center
-            (4, 0), (4, 4), (4, 8),  # Middle row: left, center, right
-            (8, 0), (8, 4), (8, 8),  # Bottom row: corners and center
+            (0, 0),
+            (0, 4),
+            (0, 8),  # Top row: corners and center
+            (4, 0),
+            (4, 4),
+            (4, 8),  # Middle row: left, center, right
+            (8, 0),
+            (8, 4),
+            (8, 8),  # Bottom row: corners and center
         ]
 
         for first_row, first_col in test_positions:
@@ -213,8 +219,10 @@ class TestFirstClickSafety:
                 board.place_mines(first_row, first_col)
 
                 # Verify first-click cell is safe
-                assert not board.grid[first_row][first_col].mine, \
-                    f"Position ({first_row}, {first_col}): First-click should never be a mine"
+                assert not board.grid[first_row][
+                    first_col
+                ].mine, f"Position ({first_row}, {first_col}):"
+                " First-click should never be a mine"
 
 
 if __name__ == "__main__":

@@ -5,12 +5,15 @@ Implements the chording mechanic where clicking a revealed numbered cell
 reveals all unflagged neighbors when the flag count matches the cell's number.
 """
 
-from typing import List, Tuple
-from src.models.cell import Cell
+from typing import List
+
 from src.game import flood_fill
+from src.models.cell import Cell
 
 
-def chord_cell(grid: List[List[Cell]], row: int, col: int, rows: int, cols: int) -> None:
+def chord_cell(
+    grid: List[List[Cell]], row: int, col: int, rows: int, cols: int
+) -> None:
     """
     Perform chording on a revealed numbered cell.
 
@@ -68,11 +71,7 @@ def chord_cell(grid: List[List[Cell]], row: int, col: int, rows: int, cols: int)
 
 
 def _count_flagged_neighbors(
-    grid: List[List[Cell]],
-    row: int,
-    col: int,
-    rows: int,
-    cols: int
+    grid: List[List[Cell]], row: int, col: int, rows: int, cols: int
 ) -> int:
     """
     Count the number of flagged cells in the 8 neighboring cells.
@@ -114,11 +113,7 @@ def _count_flagged_neighbors(
 
 
 def _reveal_unflagged_neighbors(
-    grid: List[List[Cell]],
-    row: int,
-    col: int,
-    rows: int,
-    cols: int
+    grid: List[List[Cell]], row: int, col: int, rows: int, cols: int
 ) -> None:
     """
     Reveal all unflagged neighbors of a cell.

@@ -6,8 +6,8 @@ matches the cell number, and does nothing when conditions aren't met.
 """
 
 import pytest
+
 from src.game.board import Board
-from src.game.chording import chord_cell
 
 
 class TestChording:
@@ -23,7 +23,9 @@ class TestChording:
         # Cell (1, 1) should be adjacent to the mine
         board.reveal_cell(1, 1)
         assert board.grid[1][1].revealed, "Cell (1, 1) should be revealed"
-        assert board.grid[1][1].adjacent_mines == 1, "Cell (1, 1) should have 1 adjacent mine"
+        assert (
+            board.grid[1][1].adjacent_mines == 1
+        ), "Cell (1, 1) should have 1 adjacent mine"
 
         # Flag the neighbor containing the mine
         board.grid[0][0].flagged = True
@@ -75,25 +77,18 @@ class TestChording:
             break
 
         # Count revealed cells before chording
-        revealed_before = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_before = sum(cell.revealed for row in board.grid for cell in row)
 
         # Attempt chording
         board.chord_cell(row, col)
 
         # Count revealed cells after chording
-        revealed_after = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_after = sum(cell.revealed for row in board.grid for cell in row)
 
         # No new cells should be revealed
-        assert revealed_before == revealed_after, \
-            "Chording should not reveal cells when flag count is insufficient"
+        assert (
+            revealed_before == revealed_after
+        ), "Chording should not reveal cells when flag count is insufficient"
 
     def test_chord_does_nothing_on_unrevealed_cell(self):
         """Test that chording does nothing on an unrevealed cell."""
@@ -107,25 +102,18 @@ class TestChording:
         board.grid[0][1].flagged = True
 
         # Count revealed cells before chording
-        revealed_before = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_before = sum(cell.revealed for row in board.grid for cell in row)
 
         # Attempt chording on unrevealed cell
         board.chord_cell(1, 1)
 
         # Count revealed cells after chording
-        revealed_after = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_after = sum(cell.revealed for row in board.grid for cell in row)
 
         # No new cells should be revealed
-        assert revealed_before == revealed_after, \
-            "Chording should not work on unrevealed cells"
+        assert (
+            revealed_before == revealed_after
+        ), "Chording should not work on unrevealed cells"
 
     def test_chord_does_nothing_on_blank_cell(self):
         """Test that chording does nothing on a blank cell (0 adjacent mines)."""
@@ -141,25 +129,18 @@ class TestChording:
         board.grid[0][0].flagged = True
 
         # Count revealed cells before chording
-        revealed_before = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_before = sum(cell.revealed for row in board.grid for cell in row)
 
         # Attempt chording on blank cell
         board.chord_cell(1, 1)
 
         # Count revealed cells after chording
-        revealed_after = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
+        revealed_after = sum(cell.revealed for row in board.grid for cell in row)
 
         # No new cells should be revealed (chording doesn't work on blank cells)
-        assert revealed_before == revealed_after, \
-            "Chording should not work on blank cells"
+        assert (
+            revealed_before == revealed_after
+        ), "Chording should not work on blank cells"
 
     def test_chord_skips_flagged_cells(self):
         """Test that chording does not reveal flagged cells."""
@@ -179,9 +160,15 @@ class TestChording:
         board.chord_cell(1, 1)
 
         # Flagged cells should not be revealed
-        assert not board.grid[0][0].revealed, "Flagged cell (0, 0) should not be revealed"
-        assert not board.grid[0][1].revealed, "Flagged cell (0, 1) should not be revealed"
-        assert not board.grid[1][0].revealed, "Flagged cell (1, 0) should not be revealed"
+        assert not board.grid[0][
+            0
+        ].revealed, "Flagged cell (0, 0) should not be revealed"
+        assert not board.grid[0][
+            1
+        ].revealed, "Flagged cell (0, 1) should not be revealed"
+        assert not board.grid[1][
+            0
+        ].revealed, "Flagged cell (1, 0) should not be revealed"
 
     def test_chord_with_multiple_flags(self):
         """Test chording with multiple flags (cell number > 1)."""
@@ -208,6 +195,7 @@ class TestChording:
             board.grid[1][0].mine = True
             # Recalculate adjacent counts
             from src.game.adjacent_counter import calculate_adjacent_mines
+
             calculate_adjacent_mines(board.grid, 5, 5)
             test_cell = (1, 1)
             # Flag the mines
@@ -233,7 +221,9 @@ class TestChording:
                         board.grid[nr][nc].flagged = True
                         flag_count += 1
 
-        assert flag_count == adjacent_mines, f"Should have flagged {adjacent_mines} cells"
+        assert (
+            flag_count == adjacent_mines
+        ), f"Should have flagged {adjacent_mines} cells"
 
         # Chord the cell
         board.chord_cell(row, col)
@@ -246,8 +236,11 @@ class TestChording:
                 nr, nc = row + dr, col + dc
                 if 0 <= nr < 5 and 0 <= nc < 5:
                     if not board.grid[nr][nc].flagged:
-                        assert board.grid[nr][nc].revealed, \
+                        assert board.grid[nr][
+                            nc
+                        ].revealed, (
                             f"Unflagged neighbor ({nr}, {nc}) should be revealed"
+                        )
 
     def test_chord_on_edge_cell(self):
         """Test chording on a cell at the edge of the board."""
@@ -291,12 +284,10 @@ class TestChording:
 
         # Neighbors should be revealed, including blank cells that trigger flood fill
         # The exact count depends on board state, but we should have revealed cells
-        revealed_count = sum(
-            cell.revealed
-            for row in board.grid
-            for cell in row
-        )
-        assert revealed_count > 1, "Chording should reveal neighbors and trigger flood fill"
+        revealed_count = sum(cell.revealed for row in board.grid for cell in row)
+        assert (
+            revealed_count > 1
+        ), "Chording should reveal neighbors and trigger flood fill"
 
     def test_invalid_coordinates_raise_error(self):
         """Test that chording with invalid coordinates raises IndexError."""
@@ -324,11 +315,7 @@ class TestChording:
         board.place_mines(2, 2)
 
         # Count mines before chording
-        mine_count_before = sum(
-            cell.mine
-            for row in board.grid
-            for cell in row
-        )
+        mine_count_before = sum(cell.mine for row in board.grid for cell in row)
 
         # Reveal a cell and chord it
         board.reveal_cell(2, 2)
@@ -336,15 +323,12 @@ class TestChording:
         board.chord_cell(2, 2)
 
         # Count mines after chording
-        mine_count_after = sum(
-            cell.mine
-            for row in board.grid
-            for cell in row
-        )
+        mine_count_after = sum(cell.mine for row in board.grid for cell in row)
 
         # Mine count should be unchanged
-        assert mine_count_before == mine_count_after == 3, \
-            "Chording should not modify mine placement"
+        assert (
+            mine_count_before == mine_count_after == 3
+        ), "Chording should not modify mine placement"
 
     def test_chord_does_not_modify_adjacent_counts(self):
         """Test that chording does not change adjacent mine counts."""
@@ -366,8 +350,10 @@ class TestChording:
         # Check adjacent counts after chording
         for row in range(5):
             for col in range(5):
-                assert board.grid[row][col].adjacent_mines == adjacent_counts_before[row][col], \
-                    f"Chording should not change adjacent count at ({row}, {col})"
+                assert (
+                    board.grid[row][col].adjacent_mines
+                    == adjacent_counts_before[row][col]
+                ), f"Chording should not change adjacent count at ({row}, {col})"
 
     def test_chord_with_all_correct_flags(self):
         """Test chording when all neighbors are correctly flagged."""
@@ -413,8 +399,9 @@ class TestChording:
                 nr, nc = test_row + dr, test_col + dc
                 if 0 <= nr < 3 and 0 <= nc < 3:
                     if not board.grid[nr][nc].mine and not board.grid[nr][nc].flagged:
-                        assert board.grid[nr][nc].revealed, \
-                            f"Safe neighbor ({nr}, {nc}) should be revealed"
+                        assert board.grid[nr][
+                            nc
+                        ].revealed, f"Safe neighbor ({nr}, {nc}) should be revealed"
 
     def test_chord_preserves_flags(self):
         """Test that chording does not remove existing flags."""
@@ -431,25 +418,18 @@ class TestChording:
         board.grid[1][0].flagged = True
 
         # Store flag count before chording
-        flag_count_before = sum(
-            cell.flagged
-            for row in board.grid
-            for cell in row
-        )
+        flag_count_before = sum(cell.flagged for row in board.grid for cell in row)
 
         # Chord the cell
         board.chord_cell(1, 1)
 
         # Store flag count after chording
-        flag_count_after = sum(
-            cell.flagged
-            for row in board.grid
-            for cell in row
-        )
+        flag_count_after = sum(cell.flagged for row in board.grid for cell in row)
 
         # Flag count should be unchanged
-        assert flag_count_before == flag_count_after == 3, \
-            "Chording should not modify flags"
+        assert (
+            flag_count_before == flag_count_after == 3
+        ), "Chording should not modify flags"
 
 
 if __name__ == "__main__":

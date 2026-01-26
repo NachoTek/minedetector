@@ -11,4 +11,4 @@ Contains core game mechanics including:
 
 from .board import Board
 
-__all__ = ['Board']
+__all__ = ["Board"]

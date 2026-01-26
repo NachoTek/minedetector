@@ -7,6 +7,7 @@ Shows the number of remaining mines (total mines minus placed flags).
 
 import tkinter as tk
 from typing import Optional
+
 from src.game.board import Board
 
 
@@ -44,10 +45,7 @@ class MineCounter:
     """Minimum value that can be displayed on the counter."""
 
     def __init__(
-        self,
-        parent: tk.Widget,
-        board: Board,
-        total_mines: Optional[int] = None
+        self, parent: tk.Widget, board: Board, total_mines: Optional[int] = None
     ):
         """
         Initialize the mine counter display.
@@ -88,7 +86,7 @@ class MineCounter:
             font=("Courier", 20, "bold"),
             width=4,
             relief="sunken",
-            bd=2
+            bd=2,
         )
         """The Tkinter label widget displaying the count."""
 
@@ -121,16 +119,10 @@ class MineCounter:
         """
         if self.current_count >= 0:
             # Normal: black on red
-            self.label.config(
-                fg="black",
-                bg="#ff0000"
-            )
+            self.label.config(fg="black", bg="#ff0000")
         else:
             # Too many flags: red on black
-            self.label.config(
-                fg="red",
-                bg="black"
-            )
+            self.label.config(fg="red", bg="black")
 
     def decrement(self) -> None:
         """

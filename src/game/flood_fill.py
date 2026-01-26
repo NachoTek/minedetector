@@ -6,10 +6,13 @@ when a cell with 0 adjacent mines is clicked.
 """
 
 from typing import List, Tuple
+
 from src.models.cell import Cell
 
 
-def reveal_cell(grid: List[List[Cell]], row: int, col: int, rows: int, cols: int) -> None:
+def reveal_cell(
+    grid: List[List[Cell]], row: int, col: int, rows: int, cols: int
+) -> None:
     """
     Reveal a cell and perform flood fill if it has 0 adjacent mines.
 

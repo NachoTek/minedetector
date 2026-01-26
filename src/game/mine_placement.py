@@ -7,6 +7,7 @@ The first-click cell and its neighbors are guaranteed to be mine-free.
 
 import random
 from typing import List, Tuple
+
 from src.models.cell import Cell
 
 
@@ -16,7 +17,7 @@ def place_mines(
     cols: int,
     mine_count: int,
     first_click_row: int,
-    first_click_col: int
+    first_click_col: int,
 ) -> None:
     """
     Place mines randomly on the board, ensuring the first-click cell is safe.
@@ -44,8 +45,11 @@ def place_mines(
 
     Example:
         >>> board = Board(9, 9, 10)
-        >>> place_mines(board.grid, board.rows, board.cols, board.mine_count, 4, 4)
-        >>> # Now board has 10 mines placed, with cell (4,4) and neighbors guaranteed safe
+        >>> place_mines(
+        >>>     board.grid, board.rows, board.cols, board.mine_count, 4, 4
+        >>> )
+        >>> # Now board has 10 mines placed, with cell (4,4) and
+        >>> # neighbors guaranteed safe
     """
     # Validate that we have enough space to place mines
     # Protected zone includes first-click cell and its 8 neighbors
@@ -80,10 +84,7 @@ def place_mines(
 
 
 def _get_protected_zone(
-    first_click_row: int,
-    first_click_col: int,
-    rows: int,
-    cols: int
+    first_click_row: int, first_click_col: int, rows: int, cols: int
 ) -> List[Tuple[int, int]]:
     """
     Get the list of cells that must be kept mine-free (first-click and neighbors).

@@ -6,13 +6,14 @@ Provides difficulty selection via Game menu and sets up the main application str
 """
 
 import tkinter as tk
-from typing import Dict, Tuple, Optional
+from typing import Dict, Optional
+
 from src.game.board import Board
 from src.models.game_state import GameState
 from src.ui.game_grid import GameGrid
 from src.ui.mine_counter import MineCounter
-from src.ui.timer import GameTimer
 from src.ui.reset_button import ResetButton
+from src.ui.timer import GameTimer
 
 
 class MainWindow:
@@ -28,7 +29,8 @@ class MainWindow:
 
     Attributes:
         root: The Tkinter root window object.
-        current_difficulty: The currently selected difficulty level (default: "Beginner").
+        current_difficulty: The currently selected difficulty level
+        (default: "Beginner").
         board: The game Board object containing cell data and game logic.
         game_grid: The GameGrid UI component for displaying cells.
         mine_counter: The MineCounter UI component for displaying remaining mines.
@@ -49,21 +51,9 @@ class MainWindow:
     # Difficulty configurations as class constants
     # Following Windows Mine Detector standard difficulties
     DIFFICULTIES: Dict[str, Dict[str, int]] = {
-        "Beginner": {
-            "rows": 9,
-            "cols": 9,
-            "mines": 10
-        },
-        "Intermediate": {
-            "rows": 16,
-            "cols": 16,
-            "mines": 40
-        },
-        "Expert": {
-            "rows": 16,
-            "cols": 30,
-            "mines": 99
-        }
+        "Beginner": {"rows": 9, "cols": 9, "mines": 10},
+        "Intermediate": {"rows": 16, "cols": 16, "mines": 40},
+        "Expert": {"rows": 16, "cols": 30, "mines": 99},
     }
     """Dictionary mapping difficulty names to their grid configurations."""
 
@@ -93,11 +83,7 @@ class MainWindow:
 
         # Initialize game board
         config = self.get_difficulty_config()
-        self.board = Board(
-            config["rows"],
-            config["cols"],
-            config["mines"]
-        )
+        self.board = Board(config["rows"], config["cols"], config["mines"])
         """The game Board object containing cell data and game logic."""
 
         # Initialize game grid UI
@@ -106,11 +92,13 @@ class MainWindow:
 
         # Initialize mine counter UI
         self.mine_counter: Optional[MineCounter] = None
-        """The MineCounter UI component for displaying remaining mines (created after menu)."""
+        """The MineCounter UI component for displaying remaining mines
+        (created after menu)."""
 
         # Initialize timer UI
         self.timer: Optional[GameTimer] = None
-        """The GameTimer UI component for displaying elapsed time (created after menu)."""
+        """The GameTimer UI component for displaying elapsed time
+        (created after menu)."""
 
         # Initialize reset button UI
         self.reset_button: Optional[ResetButton] = None
@@ -150,16 +138,13 @@ class MainWindow:
 
         # Add difficulty options
         game_menu.add_command(
-            label="Beginner",
-            command=lambda: self._set_difficulty("Beginner")
+            label="Beginner", command=lambda: self._set_difficulty("Beginner")
         )
         game_menu.add_command(
-            label="Intermediate",
-            command=lambda: self._set_difficulty("Intermediate")
+            label="Intermediate", command=lambda: self._set_difficulty("Intermediate")
         )
         game_menu.add_command(
-            label="Expert",
-            command=lambda: self._set_difficulty("Expert")
+            label="Expert", command=lambda: self._set_difficulty("Expert")
         )
 
         # Add separator
@@ -185,22 +170,17 @@ class MainWindow:
 
         # Create mine counter (left side)
         self.mine_counter = MineCounter(
-            top_frame,
-            self.board,
-            total_mines=self.board.mine_count
+            top_frame, self.board, total_mines=self.board.mine_count
         )
-        self.mine_counter.pack(side="left", anchor='center')
+        self.mine_counter.pack(side="left", anchor="center")
 
         # Create reset button (centered)
-        self.reset_button = ResetButton(
-            top_frame,
-            on_reset=self._reset_game
-        )
-        self.reset_button.pack(side='left', expand=True, anchor='center')
+        self.reset_button = ResetButton(top_frame, on_reset=self._reset_game)
+        self.reset_button.pack(side="left", expand=True, anchor="center")
 
         # Create timer (right side)
         self.timer = GameTimer(top_frame)
-        self.timer.pack(side="right", anchor='center')
+        self.timer.pack(side="right", anchor="center")
 
     def _create_game_grid(self) -> None:
         """
@@ -215,7 +195,7 @@ class MainWindow:
             self.board,
             on_cell_click=self._on_cell_click,
             on_cell_right_click=self._on_cell_right_click,
-            is_input_allowed=self._is_input_allowed
+            is_input_allowed=self._is_input_allowed,
         )
 
         # Pack the grid into the window
@@ -328,7 +308,7 @@ class MainWindow:
         Returns:
             True if input is allowed (game is playing), False otherwise.
         """
-        return self.board.game_state == GameState.PLAYING
+        return bool(self.board.game_state == GameState.PLAYING)
 
     def _check_game_state(self) -> None:
         """
@@ -411,7 +391,8 @@ class MainWindow:
         subsequent UI components (game grid, mine counter, etc.).
 
         Args:
-            difficulty: The difficulty level to set ("Beginner", "Intermediate", or "Expert").
+            difficulty: The difficulty level to set ("Beginner",
+            "Intermediate", or "Expert").
 
         Raises:
             ValueError: If the difficulty name is not recognized.
@@ -446,11 +427,7 @@ class MainWindow:
         """
         # Create new board with same difficulty settings
         config = self.get_difficulty_config()
-        self.board = Board(
-            config["rows"],
-            config["cols"],
-            config["mines"]
-        )
+        self.board = Board(config["rows"], config["cols"], config["mines"])
 
         # Resize the game grid to match new board
         if self.game_grid:

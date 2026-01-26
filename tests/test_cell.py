@@ -7,6 +7,7 @@ adjacent mine count.
 """
 
 import pytest
+
 from src.models.cell import Cell
 
 
@@ -122,7 +123,9 @@ class TestCellAttributes:
         assert cell.adjacent_mines == 5, "Adjacent mines should be 5 after mutation"
 
         cell.adjacent_mines = 0
-        assert cell.adjacent_mines == 0, "Adjacent mines should be 0 after second mutation"
+        assert (
+            cell.adjacent_mines == 0
+        ), "Adjacent mines should be 0 after second mutation"
 
     def test_all_attributes_independent(self):
         """Test that all attributes are independent and don't affect each other."""
@@ -290,7 +293,9 @@ class TestCellDataclassBehavior:
 
         assert "Cell" in repr_str, "Representation should contain class name"
         assert "mine=True" in repr_str, "Representation should show mine attribute"
-        assert "adjacent_mines=3" in repr_str, "Representation should show adjacent_mines"
+        assert (
+            "adjacent_mines=3" in repr_str
+        ), "Representation should show adjacent_mines"
 
     def test_cell_with_all_attributes_repr(self):
         """Test representation with all attributes set."""

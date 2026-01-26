@@ -6,6 +6,7 @@ cells revealed) or lost (mine clicked and revealed).
 """
 
 import pytest
+
 from src.game.board import Board
 from src.models.game_state import GameState
 
@@ -32,7 +33,9 @@ class TestWinDetection:
 
         # Check that game is won
         assert board.is_won(), "Game should be won when all safe cells are revealed"
-        assert board.game_state == GameState.PLAYING, "State should be PLAYING until updated"
+        assert (
+            board.game_state == GameState.PLAYING
+        ), "State should be PLAYING until updated"
 
         # Update game state
         board.update_game_state()
@@ -55,7 +58,9 @@ class TestWinDetection:
                     revealed_count += 1
 
         # Check that game is not won
-        assert not board.is_won(), "Game should not be won when some safe cells are hidden"
+        assert (
+            not board.is_won()
+        ), "Game should not be won when some safe cells are hidden"
         board.update_game_state()
         assert board.game_state == GameState.PLAYING, "Game state should remain PLAYING"
 
@@ -107,7 +112,6 @@ class TestWinDetection:
 
         # Check that game is won
         assert board.is_won(), "Game should be won on Expert board"
-        board_game_state = board.game_state
         board.update_game_state()
         assert board.game_state == GameState.WON, "Game state should be WON"
 
@@ -139,7 +143,9 @@ class TestWinDetection:
                 board.grid[row][col].revealed = True
 
         # Check that game is won
-        assert board.is_won(), "Game should be won when all cells are revealed on mine-free board"
+        assert (
+            board.is_won()
+        ), "Game should be won when all cells are revealed on mine-free board"
         board.update_game_state()
         assert board.game_state == GameState.WON, "Game state should be WON"
 
@@ -184,7 +190,9 @@ class TestLossDetection:
 
         # Check that game is lost
         assert board.is_lost(), "Game should be lost when a mine is revealed"
-        assert board.game_state == GameState.PLAYING, "State should be PLAYING until updated"
+        assert (
+            board.game_state == GameState.PLAYING
+        ), "State should be PLAYING until updated"
 
         # Update game state
         board.update_game_state()
@@ -422,8 +430,9 @@ class TestEdgeCases:
                     board.reveal_cell(row, col)
 
         # State should still be PLAYING until update_game_state is called
-        assert board.game_state == GameState.PLAYING, \
-            "State should be PLAYING until update_game_state is called"
+        assert (
+            board.game_state == GameState.PLAYING
+        ), "State should be PLAYING until update_game_state is called"
 
         # Now update the state
         board.update_game_state()

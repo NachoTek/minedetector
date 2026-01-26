@@ -17,10 +17,8 @@ While these tests don't exercise the Tkinter GUI, they verify the complete game 
 integration that powers the GUI.
 """
 
-import pytest
 from src.game.board import Board
 from src.models.game_state import GameState
-from src.models.cell import Cell
 
 
 class TestBeginnerDifficulty:
@@ -59,7 +57,10 @@ class TestBeginnerDifficulty:
 
             # Verify first-click cell is safe
             first_cell = board.get_cell(start_row, start_col)
-            assert not first_cell.mine, f"Game {game_num}: First-click cell at ({start_row}, {start_col}) should not be a mine"
+            assert (
+                not first_cell.mine
+            ), f"Game {game_num}: First-click cell at ({start_row},"
+            f" {start_col}) should not be a mine"
 
             # Verify all 8 neighbors are safe (or out of bounds)
             for dr in [-1, 0, 1]:
@@ -69,7 +70,10 @@ class TestBeginnerDifficulty:
                     nr, nc = start_row + dr, start_col + dc
                     if board.is_valid_coordinate(nr, nc):
                         neighbor = board.get_cell(nr, nc)
-                        assert not neighbor.mine, f"Game {game_num}: Neighbor ({nr}, {nc}) should not be a mine"
+                        assert (
+                            not neighbor.mine
+                        ), f"Game {game_num}: Neighbor ({nr}, {nc})"
+                        " should not be a mine"
 
     def test_beginner_win_condition(self):
         """Verify win detection on Beginner board."""
@@ -142,7 +146,10 @@ class TestIntermediateDifficulty:
 
             # Verify first-click cell is safe
             first_cell = board.get_cell(start_row, start_col)
-            assert not first_cell.mine, f"Game {game_num}: First-click cell at ({start_row}, {start_col}) should not be a mine"
+            assert (
+                not first_cell.mine
+            ), f"Game {game_num}: First-click cell at ({start_row},"
+            f" {start_col}) should not be a mine"
 
             # Verify all neighbors are safe
             for dr in [-1, 0, 1]:
@@ -152,18 +159,17 @@ class TestIntermediateDifficulty:
                     nr, nc = start_row + dr, start_col + dc
                     if board.is_valid_coordinate(nr, nc):
                         neighbor = board.get_cell(nr, nc)
-                        assert not neighbor.mine, f"Game {game_num}: Neighbor ({nr}, {nc}) should not be a mine"
+                        assert (
+                            not neighbor.mine
+                        ), f"Game {game_num}: Neighbor ({nr}, {nc})"
+                        " should not be a mine"
 
     def test_intermediate_correct_mine_count(self):
         """Verify exactly 40 mines placed on Intermediate board."""
         board = Board(16, 16, 40)
         board.place_mines(8, 8)
 
-        mine_count = sum(
-            1 for row in board.grid
-            for cell in row
-            if cell.mine
-        )
+        mine_count = sum(1 for row in board.grid for cell in row if cell.mine)
 
         assert mine_count == 40, f"Expected 40 mines, found {mine_count}"
 
@@ -206,15 +212,15 @@ class TestExpertDifficulty:
 
             # Test various starting positions across wide board
             test_positions = [
-                (0, 0),   # Top-left corner
+                (0, 0),  # Top-left corner
                 (0, 15),  # Top-center edge
                 (0, 29),  # Top-right corner
-                (8, 0),   # Left edge center
+                (8, 0),  # Left edge center
                 (8, 15),  # True center
                 (8, 29),  # Right edge center
                 (15, 0),  # Bottom-left corner
-                (15, 15), # Bottom-center edge
-                (15, 29), # Bottom-right corner
+                (15, 15),  # Bottom-center edge
+                (15, 29),  # Bottom-right corner
             ]
 
             start_row, start_col = test_positions[game_num % len(test_positions)]
@@ -224,7 +230,10 @@ class TestExpertDifficulty:
 
             # Verify first-click cell is safe
             first_cell = board.get_cell(start_row, start_col)
-            assert not first_cell.mine, f"Game {game_num}: First-click cell at ({start_row}, {start_col}) should not be a mine"
+            assert (
+                not first_cell.mine
+            ), f"Game {game_num}: First-click cell at ({start_row},"
+            f" {start_col}) should not be a mine"
 
             # Verify all neighbors are safe
             for dr in [-1, 0, 1]:
@@ -234,18 +243,17 @@ class TestExpertDifficulty:
                     nr, nc = start_row + dr, start_col + dc
                     if board.is_valid_coordinate(nr, nc):
                         neighbor = board.get_cell(nr, nc)
-                        assert not neighbor.mine, f"Game {game_num}: Neighbor ({nr}, {nc}) should not be a mine"
+                        assert (
+                            not neighbor.mine
+                        ), f"Game {game_num}: Neighbor ({nr}, {nc})"
+                        " should not be a mine"
 
     def test_expert_correct_mine_count(self):
         """Verify exactly 99 mines placed on Expert board."""
         board = Board(16, 30, 99)
         board.place_mines(8, 15)
 
-        mine_count = sum(
-            1 for row in board.grid
-            for cell in row
-            if cell.mine
-        )
+        mine_count = sum(1 for row in board.grid for cell in row if cell.mine)
 
         assert mine_count == 99, f"Expected 99 mines, found {mine_count}"
 
@@ -472,11 +480,7 @@ class TestFloodFillIntegration:
         board.reveal_cell(4, 4)
 
         # Count revealed cells
-        revealed_count = sum(
-            1 for row in board.grid
-            for cell in row
-            if cell.revealed
-        )
+        revealed_count = sum(1 for row in board.grid for cell in row if cell.revealed)
 
         # If center had 0 adjacent mines, flood fill should have revealed many cells
         if initial_adjacent == 0:
@@ -536,17 +540,13 @@ class TestChordingIntegration:
             # If we placed all flags, chord should work
             if flags_placed == target_cell.adjacent_mines:
                 revealed_before = sum(
-                    1 for row in board.grid
-                    for cell in row
-                    if cell.revealed
+                    1 for row in board.grid for cell in row if cell.revealed
                 )
 
                 board.chord_cell(target_row, target_col)
 
                 revealed_after = sum(
-                    1 for row in board.grid
-                    for cell in row
-                    if cell.revealed
+                    1 for row in board.grid for cell in row if cell.revealed
                 )
 
                 # Should have revealed at least some neighbors
@@ -630,8 +630,8 @@ class TestAdjacentMinesCalculation:
             for col in range(9):
                 cell = board.get_cell(row, col)
                 # All cells should have adjacent_mines calculated (0-8)
-                assert 0 <= cell.adjacent_mines <= 8, \
-                    f"Cell ({row}, {col}) has invalid adjacent_mines: {cell.adjacent_mines}"
+                assert 0 <= cell.adjacent_mines <= 8, f"Cell ({row}, {col}) has invalid"
+                f" adjacent_mines: {cell.adjacent_mines}"
 
     def test_mine_cells_have_adjacent_counts(self):
         """Verify mine cells also have adjacent_mines calculated."""
@@ -642,6 +642,9 @@ class TestAdjacentMinesCalculation:
             for col in range(9):
                 cell = board.get_cell(row, col)
                 if cell.mine:
-                    # Mine cells should also have adjacent counts calculated
-                    assert 0 <= cell.adjacent_mines <= 8, \
-                        f"Mine cell ({row}, {col}) has invalid adjacent_mines: {cell.adjacent_mines}"
+                    # Mine cells should also have adjacent counts
+                    # calculated
+                    assert (
+                        0 <= cell.adjacent_mines <= 8
+                    ), f"Mine cell ({row}, {col}) has invalid"
+                    f" adjacent_mines: {cell.adjacent_mines}"

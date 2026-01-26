@@ -9,4 +9,4 @@ Contains core data structures for the Minedetector game including:
 from .cell import Cell
 from .game_state import GameState
 
-__all__ = ['Cell', 'GameState']
+__all__ = ["Cell", "GameState"]

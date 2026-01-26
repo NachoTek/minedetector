@@ -1,12 +1,13 @@
 """
 Reset Button Module
 
-Creates and manages the reset button with reactive face icons for the Mine Detector game.
+Creates and manages the reset button with reactive face icons for
+the Mine Detector game.
 Changes expression based on game state and resets the game when clicked.
 """
 
 import tkinter as tk
-from typing import Optional, Callable
+from typing import Callable, Optional
 
 
 class ResetButton:
@@ -53,9 +54,7 @@ class ResetButton:
     """Set of valid face state names."""
 
     def __init__(
-        self,
-        parent: tk.Widget,
-        on_reset: Optional[Callable[[], None]] = None
+        self, parent: tk.Widget, on_reset: Optional[Callable[[], None]] = None
     ):
         """
         Initialize the reset button with reactive face icons.
@@ -93,7 +92,7 @@ class ResetButton:
             height=1,
             relief="raised",
             bd=2,
-            command=self._handle_click
+            command=self._handle_click,
         )
         """The Tkinter button widget displaying the face icon."""
 

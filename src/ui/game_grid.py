@@ -7,6 +7,7 @@ Handles mouse interactions and updates cell display based on game state.
 
 import tkinter as tk
 from typing import Callable, Optional
+
 from src.game.board import Board
 
 
@@ -45,7 +46,7 @@ class GameGrid:
         5: "#800000",  # Dark brown/maroon
         6: "teal",
         7: "black",
-        8: "gray"
+        8: "gray",
     }
     """Colors for numbers 1-8 matching the classic Windows Mine Detector appearance."""
 
@@ -56,7 +57,7 @@ class GameGrid:
         cell_size: int = 30,
         on_cell_click: Optional[Callable[[int, int], None]] = None,
         on_cell_right_click: Optional[Callable[[int, int], None]] = None,
-        is_input_allowed: Optional[Callable[[], bool]] = None
+        is_input_allowed: Optional[Callable[[], bool]] = None,
     ):
         """
         Initialize the game grid with clickable cell buttons.
@@ -99,9 +100,11 @@ class GameGrid:
         self.is_input_allowed = is_input_allowed
         """Optional callback that returns True if input is currently allowed."""
 
-        # Track whether input is currently allowed (disables clicks without changing appearance)
+        # Track whether input is currently allowed
+        # (disables clicks without changing appearance)
         self.input_enabled = True
-        """Whether mouse input is currently allowed (prevents clicks without disabling widgets)."""
+        """Whether mouse input is currently allowed
+        (prevents clicks without disabling widgets)."""
 
         # Create frame to hold the grid
         self.frame = tk.Frame(parent, relief="sunken", bd=2)
@@ -142,24 +145,25 @@ class GameGrid:
                     height=1,
                     relief="raised",
                     bd=2,
-                    font=("Arial", 10, "bold")
+                    font=("Arial", 10, "bold"),
                 )
 
                 # Bind mouse events
-                # Use ButtonPress-1 for immediate response on left-click (fires on mouse down)
+                # Use ButtonPress-1 for immediate response
+                # on left-click (fires on mouse down)
                 button.bind(
                     "<ButtonPress-1>",
-                    lambda event, r=row, c=col: self._handle_left_press(r, c)
+                    lambda event, r=row, c=col: self._handle_left_press(r, c),
                 )
                 # Override native ButtonRelease-1 behavior using delayed execution
                 button.bind(
                     "<ButtonRelease-1>",
-                    lambda event, r=row, c=col: self._ensure_sunken_state(r, c)
+                    lambda event, r=row, c=col: self._ensure_sunken_state(r, c),
                 )
                 # Right-click for flagging (fires on mouse down)
                 button.bind(
                     "<ButtonPress-3>",
-                    lambda event, r=row, c=col: self._handle_right_press(r, c)
+                    lambda event, r=row, c=col: self._handle_right_press(r, c),
                 )
 
                 # Position button in grid
@@ -172,7 +176,8 @@ class GameGrid:
         """
         Handle left-button press event on a cell button.
 
-        This method is called when a cell button's left mouse button is pressed (mouse down).
+        This method is called when a cell button's left mouse button is
+        pressed (mouse down).
         It checks if input is allowed (game is still active), then sets button to sunken
         state for instant visual feedback and invokes on_cell_click callback.
         The sunken state is maintained by the ButtonRelease-1 handler which
@@ -207,7 +212,8 @@ class GameGrid:
         """
         Handle right-button press event on a cell button.
 
-        This method is called when a cell button's right mouse button is pressed (mouse down).
+        This method is called when a cell button's right mouse button is
+        pressed (mouse down).
         It checks if input is allowed (game is still active), then invokes the
         on_cell_right_click callback if one was provided during initialization.
         Right-click is used to place/remove flags on cells.
@@ -276,11 +282,13 @@ class GameGrid:
 
         This approach works with Tkinter's event system instead of against it:
         - Native handler runs (button resets to raised)
-        - Our delayed handler runs (button set back to sunken if revealed)
+        - Our delayed handler runs (button set back to sunken if
+          revealed)
         - No "break" needed, event chain completes normally
 
-        The use of after() ensures our handler runs AFTER the native Button class handler,
-        allowing us to override the visual state without interfering with event propagation.
+        The use of after() ensures our handler runs AFTER the native
+        Button class handler, allowing us to override the visual state
+        without interfering with event propagation.
 
         Args:
             row: Row index of the cell (0-based).
@@ -347,41 +355,25 @@ class GameGrid:
 
         if cell.flagged:
             # Show flag
-            button.config(
-                text="🚩",
-                relief="raised",
-                bg="lightgray"
-            )
+            button.config(text="🚩", relief="raised", bg="lightgray")
         elif cell.revealed:
             if cell.mine:
                 # Revealed mine - show mine symbol
-                button.config(
-                    text="💣",
-                    relief="sunken",
-                    bg="#c0c0c0"
-                )
+                button.config(text="💣", relief="sunken", bg="#c0c0c0")
             elif cell.adjacent_mines > 0:
                 # Revealed numbered cell - show number with color
                 button.config(
                     text=str(cell.adjacent_mines),
                     relief="sunken",
                     bg="#c0c0c0",
-                    fg=self.NUMBER_COLORS.get(cell.adjacent_mines, "black")
+                    fg=self.NUMBER_COLORS.get(cell.adjacent_mines, "black"),
                 )
             else:
                 # Revealed blank cell (0 adjacent mines)
-                button.config(
-                    text="",
-                    relief="sunken",
-                    bg="#c0c0c0"
-                )
+                button.config(text="", relief="sunken", bg="#c0c0c0")
         else:
             # Unrevealed cell
-            button.config(
-                text="",
-                relief="raised",
-                bg="lightgray"
-            )
+            button.config(text="", relief="raised", bg="lightgray")
 
     def set_enabled(self, enabled: bool) -> None:
         """
@@ -414,7 +406,7 @@ class GameGrid:
                         state="normal",
                         relief=current_relief,
                         bg=current_bg,
-                        fg=current_fg
+                        fg=current_fg,
                     )
 
     def update_all_cells(self) -> None:

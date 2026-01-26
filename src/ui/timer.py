@@ -82,7 +82,7 @@ class GameTimer:
             relief="sunken",
             bd=2,
             fg="black",
-            bg="#ff0000"
+            bg="#ff0000",
         )
         """The Tkinter label widget displaying the elapsed time."""
 
@@ -175,10 +175,7 @@ class GameTimer:
         update loop for the timer.
         """
         if self.is_running:
-            self.timer_id = self.parent.after(
-                self.UPDATE_INTERVAL,
-                self._update_timer
-            )
+            self.timer_id = self.parent.after(self.UPDATE_INTERVAL, self._update_timer)
 
     def _update_timer(self) -> None:
         """

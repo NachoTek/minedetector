@@ -6,12 +6,10 @@ mine placement, and board-level operations.
 """
 
 from typing import List
+
+from src.game import adjacent_counter, chording, flood_fill, mine_placement
 from src.models.cell import Cell
 from src.models.game_state import GameState
-from src.game import mine_placement
-from src.game import adjacent_counter
-from src.game import flood_fill
-from src.game import chording
 
 
 class Board:
@@ -71,13 +69,12 @@ class Board:
         # Initialize 2D grid with Cell objects
         # Using list comprehension for clean, efficient creation
         self.grid: List[List[Cell]] = [
-            [Cell() for _ in range(cols)]
-            for _ in range(rows)
+            [Cell() for _ in range(cols)] for _ in range(rows)
         ]
         """2D list of Cell objects. Access via grid[row][col]."""
 
         # Initialize game state
-        self.game_state = GameState.PLAYING
+        self.game_state: GameState = GameState.PLAYING
         """Current state of the game (PLAYING, WON, or LOST)."""
 
     def is_valid_coordinate(self, row: int, col: int) -> bool:
@@ -132,12 +129,14 @@ class Board:
 
         Raises:
             ValueError: If the first-click coordinates are out of bounds.
-            ValueError: If mine_count exceeds available cells (accounting for protected zone).
+            ValueError: If mine_count exceeds available cells
+            (accounting for protected zone).
 
         Example:
             >>> board = Board(9, 9, 10)
-            >>> board.place_mines(4, 4)  # First click at center of board
-            >>> # Cell (4,4) and its neighbors are guaranteed to be mine-free
+            >>> board.place_mines(4, 4)
+            >>> # Cell (4,4) and its neighbors are guaranteed to be
+            >>> # mine-free
         """
         # Validate first-click coordinates
         if not self.is_valid_coordinate(first_click_row, first_click_col):
@@ -153,7 +152,7 @@ class Board:
             self.cols,
             self.mine_count,
             first_click_row,
-            first_click_col
+            first_click_col,
         )
 
         # Calculate adjacent mine counts for all cells
@@ -182,7 +181,8 @@ class Board:
             >>> board = Board(9, 9, 10)
             >>> board.place_mines(4, 4)
             >>> board.reveal_cell(4, 4)
-            >>> # If cell (4,4) has 0 adjacent mines, flood fill reveals connected region
+            >>> # If cell (4,4) has 0 adjacent mines, flood fill
+            >>> # reveals connected region
         """
         # Delegate to flood_fill module
         flood_fill.reveal_cell(self.grid, row, col, self.rows, self.cols)
@@ -239,11 +239,7 @@ class Board:
         safe_cells = total_cells - self.mine_count
 
         # Count currently revealed cells
-        revealed_count = sum(
-            1 for row in self.grid
-            for cell in row
-            if cell.revealed
-        )
+        revealed_count = sum(1 for row in self.grid for cell in row if cell.revealed)
 
         # Win condition: all safe cells are revealed
         return revealed_count == safe_cells
@@ -266,11 +262,7 @@ class Board:
             True
         """
         # Check if any mine cell has been revealed
-        return any(
-            cell.mine and cell.revealed
-            for row in self.grid
-            for cell in row
-        )
+        return any(cell.mine and cell.revealed for row in self.grid for cell in row)
 
     def update_game_state(self) -> None:
         """
