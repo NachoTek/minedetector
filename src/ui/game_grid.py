@@ -99,6 +99,10 @@ class GameGrid:
         self.is_input_allowed = is_input_allowed
         """Optional callback that returns True if input is currently allowed."""
 
+        # Track whether input is currently allowed (disables clicks without changing appearance)
+        self.input_enabled = True
+        """Whether mouse input is currently allowed (prevents clicks without disabling widgets)."""
+
         # Create frame to hold the grid
         self.frame = tk.Frame(parent, relief="sunken", bd=2)
         """The frame widget containing the grid of cell buttons."""
@@ -142,13 +146,10 @@ class GameGrid:
                 )
 
                 # Bind mouse events
-                # Use Button-1 for immediate response on left-click (fires on mouse down)
-                # ButtonRelease-1 handler uses after() to override native behavior
-                # This approach works WITH Tkinter's event system, not against it
-                # No "break" needed - event propagation completes normally
+                # Use ButtonPress-1 for immediate response on left-click (fires on mouse down)
                 button.bind(
-                    "<Button-1>",
-                    lambda event, r=row, c=col: self._handle_left_click(r, c)
+                    "<ButtonPress-1>",
+                    lambda event, r=row, c=col: self._handle_left_press(r, c)
                 )
                 # Override native ButtonRelease-1 behavior using delayed execution
                 button.bind(
@@ -157,8 +158,8 @@ class GameGrid:
                 )
                 # Right-click for flagging (fires on mouse down)
                 button.bind(
-                    "<Button-3>",
-                    lambda event, r=row, c=col: self._handle_right_click(r, c)
+                    "<ButtonPress-3>",
+                    lambda event, r=row, c=col: self._handle_right_press(r, c)
                 )
 
                 # Position button in grid
@@ -167,13 +168,13 @@ class GameGrid:
                 button_row.append(button)
             self.buttons.append(button_row)
 
-    def _handle_left_click(self, row: int, col: int) -> None:
+    def _handle_left_press(self, row: int, col: int):
         """
-        Handle left-click event on a cell button.
+        Handle left-button press event on a cell button.
 
-        This method is called when a cell button is left-clicked. It checks if
-        input is allowed (game is still active), then sets the button to sunken
-        state for instant visual feedback and invokes the on_cell_click callback.
+        This method is called when a cell button's left mouse button is pressed (mouse down).
+        It checks if input is allowed (game is still active), then sets button to sunken
+        state for instant visual feedback and invokes on_cell_click callback.
         The sunken state is maintained by the ButtonRelease-1 handler which
         overrides the native button behavior.
 
@@ -186,7 +187,11 @@ class GameGrid:
         """
         # Check if input is allowed (game is still active)
         if self.is_input_allowed and not self.is_input_allowed():
-            return
+            return "break"
+
+        # Check internal input enabled flag
+        if not self.input_enabled:
+            return "break"
 
         # Immediately set button to sunken state for instant visual feedback
         button = self.buttons[row][col]
@@ -196,7 +201,45 @@ class GameGrid:
         if self.on_cell_click:
             self.on_cell_click(row, col)
 
-    def _handle_right_click(self, row: int, col: int) -> None:
+        return "break"
+
+    def _handle_right_press(self, row: int, col: int):
+        """
+        Handle right-button press event on a cell button.
+
+        This method is called when a cell button's right mouse button is pressed (mouse down).
+        It checks if input is allowed (game is still active), then invokes the
+        on_cell_right_click callback if one was provided during initialization.
+        Right-click is used to place/remove flags on cells.
+
+        Args:
+            row: Row index of the clicked cell (0-based).
+            col: Column index of the clicked cell (0-based).
+        """
+        # Check if input is allowed (game is still active)
+        if self.is_input_allowed and not self.is_input_allowed():
+            return "break"
+
+        # Check internal input enabled flag
+        if not self.input_enabled:
+            return "break"
+
+        if self.on_cell_right_click:
+            self.on_cell_right_click(row, col)
+
+        return "break"
+
+        # Immediately set button to sunken state for instant visual feedback
+        button = self.buttons[row][col]
+        button.config(relief="sunken", bg="#c0c0c0")
+        button.update_idletasks()
+
+        if self.on_cell_click:
+            self.on_cell_click(row, col)
+
+        return "break"
+
+    def _handle_right_click(self, row: int, col: int):
         """
         Handle right-click event on a cell button.
 
@@ -213,8 +256,14 @@ class GameGrid:
         if self.is_input_allowed and not self.is_input_allowed():
             return
 
+        # Check internal input enabled flag
+        if not self.input_enabled:
+            return "break"
+
         if self.on_cell_right_click:
             self.on_cell_right_click(row, col)
+
+        return "break"
 
     def _ensure_sunken_state(self, row: int, col: int) -> None:
         """
@@ -237,6 +286,14 @@ class GameGrid:
             row: Row index of the cell (0-based).
             col: Column index of the cell (0-based).
         """
+        # Check if input is allowed (game is still active)
+        if self.is_input_allowed and not self.is_input_allowed():
+            return
+
+        # Check internal input enabled flag
+        if not self.input_enabled:
+            return
+
         # Schedule state correction after native handler completes
         # Small delay ensures native ButtonRelease handler runs first
         self.frame.after(1, lambda: self._apply_sunken_if_revealed(row, col))
@@ -328,19 +385,37 @@ class GameGrid:
 
     def set_enabled(self, enabled: bool) -> None:
         """
-        Enable or disable all cell buttons.
+        Enable or disable mouse input for the entire grid.
 
-        When disabled, buttons cannot be clicked and do not show visual
-        feedback when pressed. This is used to prevent interaction when
-        the game is over.
+        When disabled, mouse clicks are blocked but the visual appearance
+        remains unchanged. This is used to prevent interaction when
+        the game is over without affecting the grid's color scheme.
 
         Args:
-            enabled: True to enable buttons, False to disable them.
+            enabled: True to allow input, False to block input.
         """
-        state = "normal" if enabled else "disabled"
+        self.input_enabled = enabled
+
+        # Disable the button widget to prevent native press animation
+        # Then immediately re-enable it to restore normal appearance
         for row in range(self.board.rows):
             for col in range(self.board.cols):
-                self.buttons[row][col].config(state=state)
+                button = self.buttons[row][col]
+                if enabled:
+                    button.config(state="normal")
+                else:
+                    # Temporarily disable to block native press animation
+                    button.config(state="disabled")
+                    # Immediately restore colors to prevent grayscale
+                    current_relief = button.cget("relief")
+                    current_bg = button.cget("bg")
+                    current_fg = button.cget("fg")
+                    button.config(
+                        state="normal",
+                        relief=current_relief,
+                        bg=current_bg,
+                        fg=current_fg
+                    )
 
     def update_all_cells(self) -> None:
         """
