@@ -6,6 +6,7 @@ It creates and starts the main game window.
 """
 
 import sys
+
 from src.ui.main_window import MainWindow
 
 
