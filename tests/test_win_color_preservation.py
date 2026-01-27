@@ -6,6 +6,7 @@ This test ensures the UI remains consistent - only the face icon changes
 from happy to cool, and cells are disabled, but no color changes occur.
 """
 
+import os
 import tkinter as tk
 
 import pytest
@@ -32,6 +33,8 @@ class TestWinColorPreservation:
             for col in range(9):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
+
+        board.update_game_state()
 
         # Verify game state is WON
         assert board.game_state == GameState.WON
@@ -88,6 +91,8 @@ class TestWinColorPreservation:
             for col in range(9):
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
+
+        board.update_game_state()
 
         # Check game state is WON
         assert board.is_won(), "Game should be won when all safe cells are revealed"
@@ -192,6 +197,8 @@ class TestWinColorPreservation:
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
+        board.update_game_state()
+
         # Game should be won
         assert board.game_state == GameState.WON
 
@@ -219,6 +226,8 @@ class TestWinColorPreservation:
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
                     initial_revealed_count += 1
+
+        board.update_game_state()
 
         # Verify win condition
         assert board.is_won()
@@ -251,6 +260,8 @@ class TestWinColorPreservation:
                 if not board.grid[row][col].mine:
                     board.grid[row][col].revealed = True
 
+        board.update_game_state()
+
         # Verify game state is WON
         assert board.is_won()
         assert board.game_state == GameState.WON
@@ -276,6 +287,8 @@ class TestWinColorPreservation:
         for row in range(5):
             for col in range(5):
                 board.grid[row][col].revealed = True
+
+        board.update_game_state()
 
         # Verify win
         assert board.is_won()
@@ -304,6 +317,8 @@ class TestWinColorPreservation:
                     if not board.grid[row][col].mine:
                         board.grid[row][col].revealed = True
 
+            board.update_game_state()
+
             # Verify win
             assert board.is_won(), f"Should win on {description}"
             assert board.game_state == GameState.WON
@@ -326,6 +341,10 @@ class TestWinColorPreservation:
 class TestHandleGameOverWinColorBehavior:
     """Test suite for _handle_game_over() color behavior during win."""
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_handle_game_over_win_sets_correct_face(self):
         """Test that _handle_game_over(won=True) sets the cool face."""
         window = MainWindow()
@@ -340,6 +359,10 @@ class TestHandleGameOverWinColorBehavior:
         # Verify face is now cool
         assert window.reset_button.face == "cool"
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_handle_game_over_win_disables_cells(self):
         """Test that _handle_game_over(won=True) disables cell buttons."""
         window = MainWindow()
@@ -349,6 +372,10 @@ class TestHandleGameOverWinColorBehavior:
         # This is tested indirectly through _is_input_allowed
         assert not window._is_input_allowed()
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_handle_game_over_win_does_not_change_cell_colors(self):
         """Test that _handle_game_over(won=True) does not modify cell colors."""
         window = MainWindow()
@@ -400,6 +427,10 @@ class TestHandleGameOverWinColorBehavior:
             assert baseline["mine"] == restored["mine"]
             assert baseline["flagged"] == restored["flagged"]
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_handle_game_over_win_only_modifies_ui_state(self):
         """Test that _handle_game_over(won=True) only modifies UI state, not data."""
         window = MainWindow()
@@ -424,6 +455,10 @@ class TestHandleGameOverWinColorBehavior:
         assert window.board.revealed_count == baseline_revealed_count
         assert window.board.mine_count == baseline_mines_placed
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_handle_game_over_win_timer_stops(self):
         """Test that _handle_game_over(won=True) stops the timer."""
         window = MainWindow()
@@ -590,6 +625,10 @@ class TestUpdateCellColorConsistency:
 class TestWinIntegrationColorTests:
     """Integration tests for win condition with color preservation."""
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_full_gameplay_sequence_preserves_colors(self):
         """Test a full gameplay sequence preserves colors through win."""
         # Create main window
@@ -651,6 +690,10 @@ class TestWinIntegrationColorTests:
         assert "#c0c0c0" in bg_colors, f"Background should be #c0c0c0, got {bg_colors}"
         assert "sunken" in reliefs, f"Relief should be sunken, got {reliefs}"
 
+    @pytest.mark.skipif(
+        not os.environ.get("DISPLAY") and os.name != "nt",
+        reason="Test requires a display (skipped in headless CI)",
+    )
     def test_board_reset_after_win_restores_colors(self):
         """Test that board reset after win restores proper colors."""
         window = MainWindow()
