@@ -13,4 +13,4 @@ mypy==1.8.0
 isort==5.13.2
 
 # Build
-pyinstaller==6.3.0
+pyinstaller==6.18.0
